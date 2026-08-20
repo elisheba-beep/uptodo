@@ -65,6 +65,17 @@ flutter:
     - assets/images/onboarding1.svg
     - assets/images/onboarding2.svg
     - assets/images/onboarding3.svg
+    - assets/images/profile_picture.png
+
+    - assets/icons/apple.svg
+    - assets/icons/google.svg
+    - assets/icons/home.svg
+    - assets/icons/home-2.svg
+    - assets/icons/calendar.svg
+    - assets/icons/calendar-2.svg
+    - assets/icons/clock.svg
+    - assets/icons/clock-2.svg
+    - assets/icons/user.svg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

@@ -8,32 +8,44 @@ class UpToDoButton extends StatelessWidget {
     required this.backgroundColour,
     required this.onPressed,
     this.border = false,
+    this.hasIcon = false,
+    this.icon,
+    this.disabled=false,
   });
 
   final String text;
   final Color textColour;
+  final Widget? icon;
+  final bool hasIcon;
   final Color backgroundColour;
   final void Function()? onPressed;
   final bool border;
+  final bool disabled;
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: onPressed,
-
       style: ElevatedButton.styleFrom(
         backgroundColor: backgroundColour,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
         side: border ? BorderSide(width: 1, color: Color(0xff8875FF)) : null,
       ),
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 10.0),
-        child: Text(
-          text,
-          style: TextStyle(
-            color: textColour,
-            fontSize: 16,
-            fontWeight: FontWeight.w400,
-          ),
+        padding: const EdgeInsets.symmetric(vertical: 12.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            hasIcon ? icon! : Text(''),
+            SizedBox(width: hasIcon ? 8 : 0),
+            Text(
+              text,
+              style: TextStyle(
+                color: textColour,
+                fontSize: 16,
+                fontWeight: FontWeight.w400,
+              ),
+            ),
+          ],
         ),
       ),
     );

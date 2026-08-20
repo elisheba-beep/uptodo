@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:uptodo/features/index/index_screen.dart';
 import 'package:uptodo/features/loginRegister/register_screen.dart';
 import 'package:uptodo/features/widgets/uptodo_button.dart';
 import 'package:uptodo/features/widgets/uptodo_textfield.dart';
@@ -13,6 +15,9 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   late final TextEditingController usernameController;
   late final TextEditingController passwordController;
+
+  bool usernameHasText = false;
+  bool passwordHasText = false;
 
   @override
   void initState() {
@@ -60,12 +65,28 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               SizedBox(height: 50),
               UpToDoTextField(
+                onChanged: (text) {
+                  bool hasText = text.trim().isNotEmpty;
+                  if (hasText != usernameHasText) {
+                    setState(() {
+                      usernameHasText = hasText;
+                    });
+                  }
+                },
                 controller: usernameController,
                 label: 'Username',
                 hintText: 'Enter your Username',
               ),
-              SizedBox(height: 10),
+              SizedBox(height: 20),
               UpToDoTextField(
+                onChanged: (text) {
+                  bool hasText = text.trim().isNotEmpty;
+                  if (hasText != passwordHasText) {
+                    setState(() {
+                      passwordHasText = hasText;
+                    });
+                  }
+                },
                 controller: passwordController,
                 label: 'Password',
                 hintText: '...................',
@@ -74,11 +95,24 @@ class _LoginScreenState extends State<LoginScreen> {
               SizedBox(height: 50),
               UpToDoButton(
                 text: 'Login',
-                textColour: Colors.white,
-                backgroundColour: Color(0xff8875FF),
-                onPressed: () {},
+                textColour: (usernameHasText && passwordHasText)
+                    ? Colors.white
+                    : Color(0xff979797),
+                backgroundColour: (usernameHasText && passwordHasText)
+                    ? Color(0xff8875FF)
+                    : Color(0xff8687E7).withValues(alpha: 0.5),
+                onPressed: () {
+                  (usernameHasText && passwordHasText)
+                      ? Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => IndexScreen(),
+                          ),
+                        )
+                      : null;
+                },
               ),
-              SizedBox(height: 20),
+              SizedBox(height: 25),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -99,23 +133,27 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ],
               ),
-              SizedBox(height: 20),
+              SizedBox(height: 25),
               UpToDoButton(
+                hasIcon: true,
+                icon: SvgPicture.asset('assets/icons/google.svg'),
                 text: 'Login with Google',
                 textColour: Colors.white,
                 backgroundColour: Color(0xff121212),
                 onPressed: () {},
                 border: true,
               ),
-              SizedBox(height: 10),
+              SizedBox(height: 15),
               UpToDoButton(
+                hasIcon: true,
+                icon: SvgPicture.asset('assets/icons/apple.svg'),
                 text: 'Login with Apple',
                 textColour: Colors.white,
                 backgroundColour: Color(0xff121212),
                 onPressed: () {},
                 border: true,
               ),
-              SizedBox(height: 30),
+              SizedBox(height: 35),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -129,7 +167,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       style: TextStyle(color: Colors.white),
                     ),
                     onTap: () {
-                      Navigator.push(
+                      Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
                           builder: (context) => RegisterScreen(),

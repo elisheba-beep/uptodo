@@ -36,11 +36,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
   ];
 
   void updatePageIndex(int index) {
-    pageViewController.animateToPage(
-      index,
-      duration: Duration(milliseconds: 400),
-      curve: Curves.easeInOut,
-    );
+    pageViewController.jumpToPage(index);
   }
 
   @override

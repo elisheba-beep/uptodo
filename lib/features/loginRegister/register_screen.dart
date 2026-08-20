@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:uptodo/features/index/index_screen.dart';
 import 'package:uptodo/features/loginRegister/login_screen.dart';
 import 'package:uptodo/features/widgets/uptodo_button.dart';
 import 'package:uptodo/features/widgets/uptodo_textfield.dart';
@@ -14,6 +16,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
   late final TextEditingController usernameController;
   late final TextEditingController passwordController;
   late final TextEditingController confirmPasswordController;
+
+  bool usernameHasText = false;
+  bool passwordHasText = false;
+  bool confirmPasswordHasText = false;
 
   @override
   void initState() {
@@ -63,19 +69,43 @@ class _RegisterScreenState extends State<RegisterScreen> {
               ),
               SizedBox(height: 30),
               UpToDoTextField(
+                onChanged: (text) {
+                  bool hasText = text.trim().isNotEmpty;
+                  if (hasText != usernameHasText) {
+                    setState(() {
+                      usernameHasText = hasText;
+                    });
+                  }
+                },
                 controller: usernameController,
                 label: 'Username',
                 hintText: 'Enter your Username',
               ),
-              SizedBox(height: 10),
+              SizedBox(height: 20),
               UpToDoTextField(
+                onChanged: (text) {
+                  bool hasText = text.trim().isNotEmpty;
+                  if (hasText != passwordHasText) {
+                    setState(() {
+                      passwordHasText = hasText;
+                    });
+                  }
+                },
                 controller: passwordController,
                 label: 'Password',
                 hintText: '...................',
                 obscureText: true,
               ),
-              SizedBox(height: 10),
+              SizedBox(height: 20),
               UpToDoTextField(
+                onChanged: (text) {
+                  bool hasText = text.trim().isNotEmpty;
+                  if (hasText != confirmPasswordHasText) {
+                    setState(() {
+                      confirmPasswordHasText = hasText;
+                    });
+                  }
+                },
                 controller: confirmPasswordController,
                 label: 'Confirm Password',
                 hintText: '...................',
@@ -84,11 +114,30 @@ class _RegisterScreenState extends State<RegisterScreen> {
               SizedBox(height: 50),
               UpToDoButton(
                 text: 'Register',
-                textColour: Colors.white,
-                backgroundColour: Color(0xff8875FF),
-                onPressed: () {},
+                textColour:
+                    (usernameHasText &&
+                        passwordHasText &&
+                        confirmPasswordHasText)
+                    ? Colors.white
+                    : Color(0xff979797),
+                backgroundColour:
+                    (usernameHasText &&
+                        passwordHasText &&
+                        confirmPasswordHasText)
+                    ? Color(0xff8875FF)
+                    : Color(0xff8687E7).withValues(alpha: 0.5),
+                onPressed: () {
+                  (usernameHasText && passwordHasText && confirmPasswordHasText)
+                      ? Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => IndexScreen(),
+                          ),
+                        )
+                      : null;
+                },
               ),
-              SizedBox(height: 20),
+              SizedBox(height: 25),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -109,23 +158,27 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ),
                 ],
               ),
-              SizedBox(height: 20),
+              SizedBox(height: 25),
               UpToDoButton(
+                hasIcon: true,
+                icon: SvgPicture.asset('assets/icons/google.svg'),
                 text: 'Register with Google',
                 textColour: Colors.white,
                 backgroundColour: Color(0xff121212),
                 onPressed: () {},
                 border: true,
               ),
-              SizedBox(height: 10),
+              SizedBox(height: 15),
               UpToDoButton(
+                hasIcon: true,
+                icon: SvgPicture.asset('assets/icons/apple.svg'),
                 text: 'Register with Apple',
                 textColour: Colors.white,
                 backgroundColour: Color(0xff121212),
                 onPressed: () {},
                 border: true,
               ),
-              SizedBox(height: 30),
+              SizedBox(height: 35),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -136,7 +189,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   GestureDetector(
                     child: Text('Login', style: TextStyle(color: Colors.white)),
                     onTap: () {
-                      Navigator.push(
+                      Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(builder: (context) => LoginScreen()),
                       );

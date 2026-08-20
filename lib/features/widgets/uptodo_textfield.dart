@@ -7,12 +7,14 @@ class UpToDoTextField extends StatelessWidget {
     this.obscureText = false,
     required this.label,
     required this.hintText,
+    required this.onChanged,
   });
 
   final TextEditingController controller;
   final bool obscureText;
   final String label;
   final String hintText;
+  final void Function(String)? onChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -20,10 +22,12 @@ class UpToDoTextField extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(label, style: TextStyle(color: Colors.white)),
-        SizedBox(height: 5),
+        SizedBox(height: 15),
         TextFormField(
+          onChanged: onChanged,
           controller: controller,
           obscureText: obscureText,
+          cursorColor: Colors.white,
           style: TextStyle(color: Colors.white),
           decoration: InputDecoration(
             hintText: hintText,
@@ -33,8 +37,13 @@ class UpToDoTextField extends StatelessWidget {
             filled: true,
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(4),
-              borderSide: BorderSide(color: Colors.white, width: 1),
+              borderSide: BorderSide(color: Color(0xff979797), width: 1),
             ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(4),
+              borderSide: BorderSide(color: Color(0xff979797), width: 1),
+            ),
+            
           ),
         ),
       ],
