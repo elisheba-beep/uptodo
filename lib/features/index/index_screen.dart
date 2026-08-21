@@ -81,7 +81,7 @@ class _IndexScreenState extends State<IndexScreen> {
             ),
             BottomNavigationBarItem(
               icon: Opacity(opacity: 0, child: Icon(Icons.add)),
-              label: '', // Leave blank
+              label: ''
             ),
             BottomNavigationBarItem(
               icon: SvgPicture.asset('assets/icons/clock.svg'),
