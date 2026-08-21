@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'UpToDo',
-      theme: ThemeData(fontFamily: 'Lato'),
+      theme: ThemeData(fontFamily: 'Lato',),
       home: OnboardingScreen(),
     );
   }

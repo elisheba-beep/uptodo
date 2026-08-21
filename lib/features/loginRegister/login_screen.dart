@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:uptodo/features/constant/app_colors.dart';
 import 'package:uptodo/features/index/index_screen.dart';
 import 'package:uptodo/features/loginRegister/register_screen.dart';
 import 'package:uptodo/features/widgets/uptodo_button.dart';
@@ -36,10 +37,10 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xff121212),
+      backgroundColor: AppColors.backgroundColor,
 
       appBar: AppBar(
-        backgroundColor: Color(0xff121212),
+        backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
           onPressed: () {

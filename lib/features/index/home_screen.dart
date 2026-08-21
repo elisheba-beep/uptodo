@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:uptodo/features/constant/size_boxes.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -17,13 +18,12 @@ class HomeScreen extends StatelessWidget {
             'What do you want to do today?',
             style: TextStyle(fontSize: 20, color: Colors.white),
           ),
-          SizedBox(
-            height: 16,
-          ),
+          16.heightBox,
           Text(
             'Tap + to add your tasks',
             style: TextStyle(fontSize: 16, color: Colors.white),
           ),
+          Spacer()
         ],
       ),
     );
