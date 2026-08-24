@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:uptodo/features/index/add_task_modal.dart';
 import 'package:uptodo/features/index/home_screen.dart';
 
 class IndexScreen extends StatefulWidget {
@@ -50,7 +51,9 @@ class _IndexScreenState extends State<IndexScreen> {
         elevation: 0,
         shape: const CircleBorder(),
         backgroundColor: Color(0xff8875FF),
-        onPressed: () {},
+        onPressed: () {
+          showDialog(context: context, builder: (context) => AddTaskModal());
+        },
         child: Icon(Icons.add, color: Colors.white, size: 32),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
@@ -81,7 +84,7 @@ class _IndexScreenState extends State<IndexScreen> {
             ),
             BottomNavigationBarItem(
               icon: Opacity(opacity: 0, child: Icon(Icons.add)),
-              label: ''
+              label: '',
             ),
             BottomNavigationBarItem(
               icon: SvgPicture.asset('assets/icons/clock.svg'),

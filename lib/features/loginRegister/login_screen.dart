@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:uptodo/features/constant/app_colors.dart';
+import 'package:uptodo/features/constant/size_boxes.dart';
 import 'package:uptodo/features/index/index_screen.dart';
+import 'package:uptodo/features/loginRegister/fingerprint_scanner.dart';
 import 'package:uptodo/features/loginRegister/register_screen.dart';
 import 'package:uptodo/features/widgets/uptodo_button.dart';
 import 'package:uptodo/features/widgets/uptodo_textfield.dart';
@@ -93,7 +95,21 @@ class _LoginScreenState extends State<LoginScreen> {
                 hintText: '...................',
                 obscureText: true,
               ),
-              SizedBox(height: 50),
+              30.heightBox,
+              Center(
+                child: IconButton(
+                  icon: Icon(Icons.fingerprint, color: Colors.white),
+                  onPressed: () {
+                    showModalBottomSheet(
+                      context: context,
+                      builder: (context) {
+                        return FingerprintScanner();
+                      },
+                    );
+                  },
+                ),
+              ),
+              25.heightBox,
               UpToDoButton(
                 text: 'Login',
                 textColour: (usernameHasText && passwordHasText)
