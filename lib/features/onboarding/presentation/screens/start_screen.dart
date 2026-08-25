@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:uptodo/features/loginRegister/login_screen.dart';
-import 'package:uptodo/features/loginRegister/register_screen.dart';
-import 'package:uptodo/features/widgets/uptodo_button.dart';
+import 'package:uptodo/features/authentication/presentation/screens/login_screen.dart';
+import 'package:uptodo/features/authentication/presentation/screens/register_screen.dart';
+import 'package:uptodo/core/widgets/uptodo_button.dart';
 
 class StartScreen extends StatelessWidget {
   const StartScreen({super.key});

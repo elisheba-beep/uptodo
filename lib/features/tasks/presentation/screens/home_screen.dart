@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:uptodo/features/constant/size_boxes.dart';
+import 'package:uptodo/core/constant/size_boxes.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});

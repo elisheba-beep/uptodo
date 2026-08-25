@@ -1,32 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:uptodo/features/constant/app_colors.dart';
-import 'package:uptodo/features/constant/size_boxes.dart';
-import 'package:uptodo/features/index/index_screen.dart';
-import 'package:uptodo/features/loginRegister/fingerprint_scanner.dart';
-import 'package:uptodo/features/loginRegister/register_screen.dart';
-import 'package:uptodo/features/widgets/uptodo_button.dart';
-import 'package:uptodo/features/widgets/uptodo_textfield.dart';
+import 'package:uptodo/features/tasks/presentation/screens/index_screen.dart';
+import 'package:uptodo/features/authentication/presentation/screens/login_screen.dart';
+import 'package:uptodo/core/widgets/uptodo_button.dart';
+import 'package:uptodo/core/widgets/uptodo_textfield.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+class RegisterScreen extends StatefulWidget {
+  const RegisterScreen({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<RegisterScreen> createState() => _RegisterScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _RegisterScreenState extends State<RegisterScreen> {
   late final TextEditingController usernameController;
   late final TextEditingController passwordController;
+  late final TextEditingController confirmPasswordController;
 
   bool usernameHasText = false;
   bool passwordHasText = false;
+  bool confirmPasswordHasText = false;
 
   @override
   void initState() {
     super.initState();
     usernameController = TextEditingController();
     passwordController = TextEditingController();
+    confirmPasswordController = TextEditingController();
   }
 
   @override
@@ -34,15 +34,16 @@ class _LoginScreenState extends State<LoginScreen> {
     super.dispose();
     usernameController.dispose();
     passwordController.dispose();
+    confirmPasswordController.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.backgroundColor,
+      backgroundColor: Color(0xff121212),
 
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
+        backgroundColor: Color(0xff121212),
         elevation: 0,
         leading: IconButton(
           onPressed: () {
@@ -59,14 +60,14 @@ class _LoginScreenState extends State<LoginScreen> {
             children: [
               Text(
                 textAlign: TextAlign.left,
-                'Login',
+                'Register',
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 32,
                   fontWeight: FontWeight.w700,
                 ),
               ),
-              SizedBox(height: 50),
+              SizedBox(height: 30),
               UpToDoTextField(
                 onChanged: (text) {
                   bool hasText = text.trim().isNotEmpty;
@@ -95,31 +96,38 @@ class _LoginScreenState extends State<LoginScreen> {
                 hintText: '...................',
                 obscureText: true,
               ),
-              30.heightBox,
-              Center(
-                child: IconButton(
-                  icon: Icon(Icons.fingerprint, color: Colors.white),
-                  onPressed: () {
-                    showModalBottomSheet(
-                      context: context,
-                      builder: (context) {
-                        return FingerprintScanner();
-                      },
-                    );
-                  },
-                ),
+              SizedBox(height: 20),
+              UpToDoTextField(
+                onChanged: (text) {
+                  bool hasText = text.trim().isNotEmpty;
+                  if (hasText != confirmPasswordHasText) {
+                    setState(() {
+                      confirmPasswordHasText = hasText;
+                    });
+                  }
+                },
+                controller: confirmPasswordController,
+                label: 'Confirm Password',
+                hintText: '...................',
+                obscureText: true,
               ),
-              25.heightBox,
+              SizedBox(height: 50),
               UpToDoButton(
-                text: 'Login',
-                textColour: (usernameHasText && passwordHasText)
+                text: 'Register',
+                textColour:
+                    (usernameHasText &&
+                        passwordHasText &&
+                        confirmPasswordHasText)
                     ? Colors.white
                     : Color(0xff979797),
-                backgroundColour: (usernameHasText && passwordHasText)
+                backgroundColour:
+                    (usernameHasText &&
+                        passwordHasText &&
+                        confirmPasswordHasText)
                     ? Color(0xff8875FF)
                     : Color(0xff8687E7).withValues(alpha: 0.5),
                 onPressed: () {
-                  (usernameHasText && passwordHasText)
+                  (usernameHasText && passwordHasText && confirmPasswordHasText)
                       ? Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -154,7 +162,7 @@ class _LoginScreenState extends State<LoginScreen> {
               UpToDoButton(
                 hasIcon: true,
                 icon: SvgPicture.asset('assets/icons/google.svg'),
-                text: 'Login with Google',
+                text: 'Register with Google',
                 textColour: Colors.white,
                 backgroundColour: Color(0xff121212),
                 onPressed: () {},
@@ -164,7 +172,7 @@ class _LoginScreenState extends State<LoginScreen> {
               UpToDoButton(
                 hasIcon: true,
                 icon: SvgPicture.asset('assets/icons/apple.svg'),
-                text: 'Login with Apple',
+                text: 'Register with Apple',
                 textColour: Colors.white,
                 backgroundColour: Color(0xff121212),
                 onPressed: () {},
@@ -175,20 +183,15 @@ class _LoginScreenState extends State<LoginScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    'Dont have an account? ',
+                    'Already have an account? ',
                     style: TextStyle(color: Color(0xff7a7a7a)),
                   ),
                   GestureDetector(
-                    child: Text(
-                      'Register',
-                      style: TextStyle(color: Colors.white),
-                    ),
+                    child: Text('Login', style: TextStyle(color: Colors.white)),
                     onTap: () {
                       Navigator.pushReplacement(
                         context,
-                        MaterialPageRoute(
-                          builder: (context) => RegisterScreen(),
-                        ),
+                        MaterialPageRoute(builder: (context) => LoginScreen()),
                       );
                     },
                   ),

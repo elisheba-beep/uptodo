@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:uptodo/features/constant/app_colors.dart';
-import 'package:uptodo/features/constant/size_boxes.dart';
-import 'package:uptodo/features/widgets/uptodo_button.dart';
+import 'package:uptodo/core/constant/app_colors.dart';
+import 'package:uptodo/core/constant/size_boxes.dart';
+import 'package:uptodo/core/widgets/uptodo_button.dart';
 
 class FingerprintScanner extends StatelessWidget {
   const FingerprintScanner({super.key});
@@ -36,7 +36,7 @@ class FingerprintScanner extends StatelessWidget {
               children: [
                 UpToDoButton(
                   text: 'Cancel',
-                  textColour: AppColors.appPurple,
+                  textColour: AppColors.purple,
                   backgroundColour: Colors.transparent,
                   onPressed: () {
                     Navigator.pop(context);
@@ -45,7 +45,7 @@ class FingerprintScanner extends StatelessWidget {
                 UpToDoButton(
                   text: 'Use Password',
                   textColour: Colors.white,
-                  backgroundColour: AppColors.appPurple,
+                  backgroundColour: AppColors.purple,
                   onPressed: () {
                     Navigator.pop(context);
                   },

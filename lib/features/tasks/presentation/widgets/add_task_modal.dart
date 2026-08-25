@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:uptodo/features/constant/app_colors.dart';
-import 'package:uptodo/features/constant/size_boxes.dart';
-import 'package:uptodo/features/index/task_textfield.dart';
+import 'package:uptodo/core/constant/app_colors.dart';
+import 'package:uptodo/core/constant/size_boxes.dart';
+import 'package:uptodo/features/tasks/presentation/widgets/task_textfield.dart';
 
 class AddTaskModal extends StatefulWidget {
   const AddTaskModal({super.key});

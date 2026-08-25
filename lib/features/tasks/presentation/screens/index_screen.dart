@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:uptodo/features/index/add_task_modal.dart';
-import 'package:uptodo/features/index/home_screen.dart';
+import 'package:uptodo/features/tasks/presentation/widgets/add_task_modal.dart';
+import 'package:uptodo/features/tasks/presentation/screens/home_screen.dart';
 
 class IndexScreen extends StatefulWidget {
   const IndexScreen({super.key});

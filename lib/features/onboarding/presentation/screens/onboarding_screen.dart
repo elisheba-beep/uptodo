@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-import 'package:uptodo/features/widgets/uptodo_button.dart';
-import 'package:uptodo/features/intro/page_details.dart';
-import 'package:uptodo/features/intro/start_screen.dart';
+import 'package:uptodo/core/constant/app_colors.dart';
+import 'package:uptodo/core/constant/navigation.dart';
+import 'package:uptodo/core/constant/size_boxes.dart';
+import 'package:uptodo/core/widgets/uptodo_button.dart';
+import 'package:uptodo/features/onboarding/data/page_details_data.dart';
+import 'package:uptodo/features/onboarding/presentation/screens/start_screen.dart';
 
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});
@@ -16,24 +19,6 @@ class _OnboardingScreenState extends State<OnboardingScreen>
     with TickerProviderStateMixin {
   int currentIndex = 0;
   late PageController pageViewController;
-
-  List<PageDetails> pageDetails = [
-    PageDetails(
-      'assets/images/onboarding1.svg',
-      'Manage your tasks',
-      'You can easily manage all of your daily tasks in DoMe for free',
-    ),
-    PageDetails(
-      'assets/images/onboarding2.svg',
-      'Create daily routine',
-      'In Uptodo  you can create your personalized routine to stay productive',
-    ),
-    PageDetails(
-      'assets/images/onboarding3.svg',
-      'Orgonaize your tasks',
-      'You can organize your daily tasks by adding your tasks into separate categories',
-    ),
-  ];
 
   void updatePageIndex(int index) {
     pageViewController.jumpToPage(index);
@@ -54,23 +39,15 @@ class _OnboardingScreenState extends State<OnboardingScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xff121212),
       appBar: AppBar(
-        backgroundColor: Color(0xff121212),
-        foregroundColor: Colors.white,
-
-        elevation: 0,
         leadingWidth: 80,
         leading: UpToDoButton(
           onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => StartScreen()),
-            );
+            context.pushTo(StartScreen());
           },
-          backgroundColour: Color(0xff121212),
+          backgroundColour: AppColors.backgroundColor,
           text: 'SKIP',
-          textColour: Color(0xff7a7a7a),
+          textColour: AppColors.mediumDarkGray,
         ),
       ),
       body: Padding(
@@ -92,7 +69,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                     child: Column(
                       children: [
                         SvgPicture.asset(pageDetails[index].image, height: 251),
-                        SizedBox(height: 50),
+                        50.heightBox,
                         SmoothPageIndicator(
                           controller: pageViewController,
                           count: pageDetails.length,
@@ -101,27 +78,26 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                             dotHeight: 4.0,
                             offset: 24,
                             spacing: 4,
-                            dotColor: Color(0xffAFAFAF),
-                            activeDotColor: Colors.white,
+                            dotColor: AppColors.mediumLightGray,
+                            activeDotColor: AppColors.white,
                             radius: 2.0,
                           ),
                         ),
-                        SizedBox(height: 50),
-
+                        50.heightBox,
                         Text(
                           pageDetails[index].title,
                           style: TextStyle(
-                            color: Colors.white,
+                            color: AppColors.white,
                             fontSize: 32,
                             fontWeight: FontWeight.w700,
                           ),
                         ),
-                        SizedBox(height: 30),
+                        30.heightBox,
                         Text(
                           textAlign: TextAlign.center,
                           pageDetails[index].subtitle,
                           style: TextStyle(
-                            color: Colors.white,
+                            color: AppColors.white,
                             fontSize: 16,
                             fontWeight: FontWeight.w400,
                           ),
@@ -140,11 +116,11 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                   UpToDoButton(
                     text: 'BACK',
                     textColour: currentIndex == 0
-                        ? Color(0xff7a7a7a)
-                        : Colors.white,
+                        ? AppColors.mediumDarkGray
+                        : AppColors.white,
                     backgroundColour: currentIndex == 0
-                        ? Color(0xff121212)
-                        : Color(0xff8875FF),
+                        ? AppColors.backgroundColor
+                        : AppColors.purple,
                     onPressed: () {
                       if (currentIndex == 0) {
                         return;
@@ -156,18 +132,13 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                   UpToDoButton(
                     onPressed: () {
                       if (currentIndex == 2) {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => StartScreen(),
-                          ),
-                        );
+                        context.pushTo(StartScreen());
                       }
                       updatePageIndex(currentIndex + 1);
                     },
                     text: currentIndex == 2 ? 'GET STARTED' : 'NEXT',
-                    textColour: Colors.white,
-                    backgroundColour: Color(0xff8875FF),
+                    textColour: AppColors.white,
+                    backgroundColour: AppColors.purple,
                   ),
                 ],
               ),
