@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:uptodo/core/constant/app_colors.dart';
 
 class UpToDoButton extends StatelessWidget {
   const UpToDoButton({
@@ -28,7 +29,7 @@ class UpToDoButton extends StatelessWidget {
       style: ElevatedButton.styleFrom(
         backgroundColor: backgroundColour,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
-        side: border ? BorderSide(width: 1, color: Color(0xff8875FF)) : null,
+        side: border ? BorderSide(width: 1, color: AppColors.purple) : null,
       ),
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 12.0),

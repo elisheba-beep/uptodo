@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:uptodo/core/constant/app_colors.dart';
+import 'package:uptodo/core/constant/navigation.dart';
+import 'package:uptodo/core/constant/size_boxes.dart';
 import 'package:uptodo/features/tasks/presentation/screens/index_screen.dart';
 import 'package:uptodo/features/authentication/presentation/screens/login_screen.dart';
 import 'package:uptodo/core/widgets/uptodo_button.dart';
@@ -40,16 +43,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xff121212),
-
       appBar: AppBar(
-        backgroundColor: Color(0xff121212),
-        elevation: 0,
         leading: IconButton(
           onPressed: () {
             Navigator.pop(context);
           },
-          icon: Icon(Icons.arrow_back_ios, color: Colors.white),
+          icon: Icon(Icons.arrow_back_ios, color: AppColors.white),
         ),
       ),
       body: SingleChildScrollView(
@@ -62,12 +61,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 textAlign: TextAlign.left,
                 'Register',
                 style: TextStyle(
-                  color: Colors.white,
+                  color: AppColors.white,
                   fontSize: 32,
                   fontWeight: FontWeight.w700,
                 ),
               ),
-              SizedBox(height: 30),
+              30.heightBox,
               UpToDoTextField(
                 onChanged: (text) {
                   bool hasText = text.trim().isNotEmpty;
@@ -81,7 +80,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 label: 'Username',
                 hintText: 'Enter your Username',
               ),
-              SizedBox(height: 20),
+              20.heightBox,
               UpToDoTextField(
                 onChanged: (text) {
                   bool hasText = text.trim().isNotEmpty;
@@ -96,7 +95,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 hintText: '...................',
                 obscureText: true,
               ),
-              SizedBox(height: 20),
+              20.heightBox,
               UpToDoTextField(
                 onChanged: (text) {
                   bool hasText = text.trim().isNotEmpty;
@@ -111,60 +110,58 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 hintText: '...................',
                 obscureText: true,
               ),
-              SizedBox(height: 50),
+              50.heightBox,
               UpToDoButton(
                 text: 'Register',
                 textColour:
                     (usernameHasText &&
                         passwordHasText &&
                         confirmPasswordHasText)
-                    ? Colors.white
-                    : Color(0xff979797),
+                    ? AppColors.white
+                    : AppColors.mediumLightGray,
                 backgroundColour:
                     (usernameHasText &&
                         passwordHasText &&
                         confirmPasswordHasText)
                     ? Color(0xff8875FF)
-                    : Color(0xff8687E7).withValues(alpha: 0.5),
+                    : AppColors.lightPurple.withValues(alpha: 0.5),
                 onPressed: () {
                   (usernameHasText && passwordHasText && confirmPasswordHasText)
-                      ? Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => IndexScreen(),
-                          ),
-                        )
+                      ? context.pushTo(IndexScreen())
                       : null;
                 },
               ),
-              SizedBox(height: 25),
+              25.heightBox,
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Expanded(
                     child: Divider(
-                      color: Color(0xff979797),
+                      color: AppColors.mediumLightGray,
                       height: 2,
                       endIndent: 16,
                     ),
                   ),
-                  Text('or', style: TextStyle(color: Color(0xff979797))),
+                  Text(
+                    'or',
+                    style: TextStyle(color: AppColors.mediumLightGray),
+                  ),
                   Expanded(
                     child: Divider(
-                      color: Color(0xff979797),
+                      color: AppColors.mediumLightGray,
                       height: 2,
                       indent: 16,
                     ),
                   ),
                 ],
               ),
-              SizedBox(height: 25),
+              25.heightBox,
               UpToDoButton(
                 hasIcon: true,
                 icon: SvgPicture.asset('assets/icons/google.svg'),
                 text: 'Register with Google',
-                textColour: Colors.white,
-                backgroundColour: Color(0xff121212),
+                textColour: AppColors.white,
+                backgroundColour: AppColors.backgroundColor,
                 onPressed: () {},
                 border: true,
               ),
@@ -173,26 +170,26 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 hasIcon: true,
                 icon: SvgPicture.asset('assets/icons/apple.svg'),
                 text: 'Register with Apple',
-                textColour: Colors.white,
-                backgroundColour: Color(0xff121212),
+                textColour: AppColors.white,
+                backgroundColour: AppColors.backgroundColor,
                 onPressed: () {},
                 border: true,
               ),
-              SizedBox(height: 35),
+              35.heightBox,
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
                     'Already have an account? ',
-                    style: TextStyle(color: Color(0xff7a7a7a)),
+                    style: TextStyle(color: AppColors.mediumDarkGray),
                   ),
                   GestureDetector(
-                    child: Text('Login', style: TextStyle(color: Colors.white)),
+                    child: Text(
+                      'Login',
+                      style: TextStyle(color: AppColors.white),
+                    ),
                     onTap: () {
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(builder: (context) => LoginScreen()),
-                      );
+                      context.pushReplacement(LoginScreen());
                     },
                   ),
                 ],

@@ -5,4 +5,7 @@ extension Navigation on BuildContext {
 
   void pushTo(Widget screen) =>
       _navigator.push(MaterialPageRoute(builder: (_) => screen));
+
+  void pushReplacement(Widget screen) =>
+      _navigator.pushReplacement(MaterialPageRoute(builder: (_) => screen));
 }

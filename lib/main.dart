@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
           backgroundColor: AppColors.backgroundColor,
           elevation: 0,
           surfaceTintColor:
-              Colors.transparent, // Prevents Material 3 tonal elevation tint
+              Colors.transparent, 
         ),
       ),
       home: OnboardingScreen(),

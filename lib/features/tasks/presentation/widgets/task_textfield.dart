@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:uptodo/core/constant/app_colors.dart';
 
 class TaskTextfield extends StatelessWidget {
   const TaskTextfield({
@@ -18,17 +19,15 @@ class TaskTextfield extends StatelessWidget {
     return TextField(
       controller: controller,
       onChanged: onChanged,
-      cursorColor: Colors.white,
-      style: TextStyle(color: Colors.white, fontSize: 18),
+      cursorColor: AppColors.white,
+      style: TextStyle(color: AppColors.white, fontSize: 18),
       decoration: InputDecoration(
         hintText: hintText,
         fillColor: Colors.transparent,
         filled: true,
         contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         isDense: true,
-        border: OutlineInputBorder(
-          borderSide: BorderSide.none,
-        ),
+        border: OutlineInputBorder(borderSide: BorderSide.none),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(4),
           borderSide: BorderSide(color: borderColor, width: 1),

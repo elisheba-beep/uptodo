@@ -15,7 +15,7 @@ class FingerprintScanner extends StatelessWidget {
           topRight: Radius.circular(16),
         ),
       ),
-      backgroundColor: Color(0xff363636),
+      backgroundColor: AppColors.popUpBackgroundColor,
       onClosing: () {},
       builder: (context) => Padding(
         padding: const EdgeInsets.all(32.0),
@@ -23,12 +23,12 @@ class FingerprintScanner extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             Center(
-              child: Icon(Icons.fingerprint, color: Colors.white, size: 78),
+              child: Icon(Icons.fingerprint, color: AppColors.white, size: 78),
             ),
             24.heightBox,
             Text(
               'Please hold your finger at the fingerprint scanner to verify your identity',
-              style: TextStyle(color: Colors.white),
+              style: TextStyle(color: AppColors.white),
             ),
             50.heightBox,
             Row(
@@ -44,7 +44,7 @@ class FingerprintScanner extends StatelessWidget {
                 ),
                 UpToDoButton(
                   text: 'Use Password',
-                  textColour: Colors.white,
+                  textColour: AppColors.white,
                   backgroundColour: AppColors.purple,
                   onPressed: () {
                     Navigator.pop(context);

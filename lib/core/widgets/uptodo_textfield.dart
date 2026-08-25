@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:uptodo/core/constant/app_colors.dart';
+import 'package:uptodo/core/constant/size_boxes.dart';
 
 class UpToDoTextField extends StatelessWidget {
   const UpToDoTextField({
@@ -21,29 +23,28 @@ class UpToDoTextField extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(label, style: TextStyle(color: Colors.white)),
-        SizedBox(height: 15),
+        Text(label, style: TextStyle(color: AppColors.white)),
+        15.heightBox,
         TextFormField(
           onChanged: onChanged,
           controller: controller,
           obscureText: obscureText,
-          cursorColor: Colors.white,
-          style: TextStyle(color: Colors.white),
+          cursorColor: AppColors.white,
+          style: TextStyle(color: AppColors.white),
           decoration: InputDecoration(
             hintText: hintText,
             isDense: true,
             contentPadding: EdgeInsets.symmetric(vertical: 12, horizontal: 12),
-            fillColor: Color(0xff1d1d1d),
+            fillColor: AppColors.eerieBlack,
             filled: true,
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(4),
-              borderSide: BorderSide(color: Color(0xff979797), width: 1),
+              borderSide: BorderSide(color: AppColors.mediumGray, width: 1),
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(4),
-              borderSide: BorderSide(color: Color(0xff979797), width: 1),
+              borderSide: BorderSide(color: AppColors.mediumGray, width: 1),
             ),
-            
           ),
         ),
       ],

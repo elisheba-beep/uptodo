@@ -49,7 +49,7 @@ class _AddTaskModalState extends State<AddTaskModal> {
               style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.w700,
-                color: Colors.white,
+                color: AppColors.white,
               ),
             ),
             16.heightBox,
@@ -78,7 +78,7 @@ class _AddTaskModalState extends State<AddTaskModal> {
               },
               hintText: 'Description',
               borderColor: descriptionHasText
-                  ? Color(0xff979797)
+                  ? AppColors.mediumGray
                   : Colors.transparent,
             ),
             35.heightBox,

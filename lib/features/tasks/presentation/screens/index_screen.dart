@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:uptodo/core/constant/app_colors.dart';
 import 'package:uptodo/features/tasks/presentation/widgets/add_task_modal.dart';
 import 'package:uptodo/features/tasks/presentation/screens/home_screen.dart';
 
@@ -23,21 +24,18 @@ class _IndexScreenState extends State<IndexScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xff121212),
       appBar: AppBar(
-        backgroundColor: Color(0xff121212),
-        elevation: 0,
         leadingWidth: 56,
         leading: IconButton(
           onPressed: () {},
-          icon: Icon(Icons.filter_list, color: Colors.white),
+          icon: Icon(Icons.filter_list, color: AppColors.white),
         ),
         title: Text(
           'Index',
           style: TextStyle(
             fontSize: 20,
             letterSpacing: -0.5,
-            color: Colors.white,
+            color: AppColors.white,
           ),
         ),
         centerTitle: true,
@@ -50,20 +48,20 @@ class _IndexScreenState extends State<IndexScreen> {
       floatingActionButton: FloatingActionButton(
         elevation: 0,
         shape: const CircleBorder(),
-        backgroundColor: Color(0xff8875FF),
+        backgroundColor: AppColors.purple,
         onPressed: () {
           showDialog(context: context, builder: (context) => AddTaskModal());
         },
-        child: Icon(Icons.add, color: Colors.white, size: 32),
+        child: Icon(Icons.add, color: AppColors.white, size: 32),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: SizedBox(
         height: 100,
         child: BottomNavigationBar(
-          selectedItemColor: Colors.white,
-          unselectedItemColor: Colors.white,
+          selectedItemColor: AppColors.white,
+          unselectedItemColor: AppColors.white,
           type: BottomNavigationBarType.fixed,
-          backgroundColor: Color(0xff363636),
+          backgroundColor: AppColors.popUpBackgroundColor,
           currentIndex: currentScreenIndex,
           onTap: (index) {
             if (index == 2) return;

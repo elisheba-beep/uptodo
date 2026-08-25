@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:uptodo/core/constant/app_colors.dart';
+import 'package:uptodo/core/constant/navigation.dart';
 import 'package:uptodo/core/constant/size_boxes.dart';
 import 'package:uptodo/features/tasks/presentation/screens/index_screen.dart';
 import 'package:uptodo/features/authentication/presentation/screens/fingerprint_scanner.dart';
@@ -39,16 +40,12 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.backgroundColor,
-
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
         leading: IconButton(
           onPressed: () {
             Navigator.pop(context);
           },
-          icon: Icon(Icons.arrow_back_ios, color: Colors.white),
+          icon: Icon(Icons.arrow_back_ios, color: AppColors.white),
         ),
       ),
       body: SingleChildScrollView(
@@ -61,12 +58,12 @@ class _LoginScreenState extends State<LoginScreen> {
                 textAlign: TextAlign.left,
                 'Login',
                 style: TextStyle(
-                  color: Colors.white,
+                  color: AppColors.white,
                   fontSize: 32,
                   fontWeight: FontWeight.w700,
                 ),
               ),
-              SizedBox(height: 50),
+              50.heightBox,
               UpToDoTextField(
                 onChanged: (text) {
                   bool hasText = text.trim().isNotEmpty;
@@ -80,7 +77,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 label: 'Username',
                 hintText: 'Enter your Username',
               ),
-              SizedBox(height: 20),
+              20.heightBox,
               UpToDoTextField(
                 onChanged: (text) {
                   bool hasText = text.trim().isNotEmpty;
@@ -98,7 +95,7 @@ class _LoginScreenState extends State<LoginScreen> {
               30.heightBox,
               Center(
                 child: IconButton(
-                  icon: Icon(Icons.fingerprint, color: Colors.white),
+                  icon: Icon(Icons.fingerprint, color: AppColors.white),
                   onPressed: () {
                     showModalBottomSheet(
                       context: context,
@@ -113,83 +110,73 @@ class _LoginScreenState extends State<LoginScreen> {
               UpToDoButton(
                 text: 'Login',
                 textColour: (usernameHasText && passwordHasText)
-                    ? Colors.white
-                    : Color(0xff979797),
+                    ? AppColors.white
+                    : AppColors.mediumGray,
                 backgroundColour: (usernameHasText && passwordHasText)
-                    ? Color(0xff8875FF)
-                    : Color(0xff8687E7).withValues(alpha: 0.5),
+                    ? AppColors.purple
+                    : AppColors.lightPurple.withValues(alpha: 0.5),
                 onPressed: () {
                   (usernameHasText && passwordHasText)
-                      ? Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => IndexScreen(),
-                          ),
-                        )
+                      ? context.pushTo(IndexScreen())
                       : null;
                 },
               ),
-              SizedBox(height: 25),
+              25.heightBox,
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Expanded(
                     child: Divider(
-                      color: Color(0xff979797),
+                      color: AppColors.mediumGray,
                       height: 2,
                       endIndent: 16,
                     ),
                   ),
-                  Text('or', style: TextStyle(color: Color(0xff979797))),
+                  Text('or', style: TextStyle(color: AppColors.mediumGray)),
                   Expanded(
                     child: Divider(
-                      color: Color(0xff979797),
+                      color: AppColors.mediumGray,
                       height: 2,
                       indent: 16,
                     ),
                   ),
                 ],
               ),
-              SizedBox(height: 25),
+              25.heightBox,
               UpToDoButton(
                 hasIcon: true,
                 icon: SvgPicture.asset('assets/icons/google.svg'),
                 text: 'Login with Google',
-                textColour: Colors.white,
-                backgroundColour: Color(0xff121212),
+                textColour: AppColors.white,
+                backgroundColour: AppColors.backgroundColor,
                 onPressed: () {},
                 border: true,
               ),
-              SizedBox(height: 15),
+              15.heightBox,
               UpToDoButton(
                 hasIcon: true,
                 icon: SvgPicture.asset('assets/icons/apple.svg'),
                 text: 'Login with Apple',
-                textColour: Colors.white,
-                backgroundColour: Color(0xff121212),
+                textColour: AppColors.white,
+                backgroundColour: AppColors.backgroundColor,
                 onPressed: () {},
                 border: true,
               ),
-              SizedBox(height: 35),
+              35.heightBox,
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
                     'Dont have an account? ',
-                    style: TextStyle(color: Color(0xff7a7a7a)),
+                    style: TextStyle(color: AppColors.mediumDarkGray),
                   ),
                   GestureDetector(
                     child: Text(
                       'Register',
-                      style: TextStyle(color: Colors.white),
+                      style: TextStyle(color: AppColors.white),
                     ),
                     onTap: () {
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => RegisterScreen(),
-                        ),
-                      );
+                      context.pushReplacement(RegisterScreen());
                     },
                   ),
                 ],
