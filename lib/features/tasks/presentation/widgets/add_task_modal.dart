@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:uptodo/core/constant/app_colors.dart';
 import 'package:uptodo/core/constant/size_boxes.dart';
+import 'package:uptodo/features/tasks/presentation/widgets/calendar_modal.dart';
+import 'package:uptodo/features/tasks/presentation/widgets/task_priority_modal.dart';
 import 'package:uptodo/features/tasks/presentation/widgets/task_textfield.dart';
 
 class AddTaskModal extends StatefulWidget {
@@ -39,7 +41,7 @@ class _AddTaskModalState extends State<AddTaskModal> {
       backgroundColor: AppColors.popUpBackgroundColor,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       child: Padding(
-        padding: const EdgeInsets.all(25),
+        padding: const EdgeInsets.all(24),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -54,6 +56,7 @@ class _AddTaskModalState extends State<AddTaskModal> {
             ),
             16.heightBox,
             TaskTextfield(
+              hasText: taskHasText,
               controller: taskController,
               onChanged: (value) {
                 bool hasText = value!.trim().isNotEmpty;
@@ -64,9 +67,12 @@ class _AddTaskModalState extends State<AddTaskModal> {
                 }
               },
               hintText: 'Task',
-              borderColor: taskHasText ? Color(0xff979797) : Colors.transparent,
+              borderColor: taskHasText
+                  ? AppColors.mediumGray
+                  : Colors.transparent,
             ),
             TaskTextfield(
+              hasText: taskHasText,
               controller: descriptionController,
               onChanged: (value) {
                 bool hasText = value!.trim().isNotEmpty;
@@ -87,18 +93,32 @@ class _AddTaskModalState extends State<AddTaskModal> {
               children: [
                 Expanded(
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       IconButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.pop(context);
+                          showDialog(
+                            context: context,
+                            builder: (context) => CalendarModal(),
+                          );
+                        },
                         icon: SvgPicture.asset('assets/icons/timer.svg'),
                       ),
+                      16.widthBox,
                       IconButton(
                         onPressed: () {},
                         icon: SvgPicture.asset('assets/icons/tag.svg'),
                       ),
+                      16.widthBox,
                       IconButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.pop(context);
+                          showDialog(
+                            context: context,
+                            builder: (context) => TaskPriorityModal(),
+                          );
+                        },
+
                         icon: SvgPicture.asset('assets/icons/flag.svg'),
                       ),
                     ],

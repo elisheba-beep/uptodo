@@ -11,7 +11,7 @@ class UpToDoButton extends StatelessWidget {
     this.border = false,
     this.hasIcon = false,
     this.icon,
-    this.disabled=false,
+    this.disabled = false,
   });
 
   final String text;
@@ -32,7 +32,7 @@ class UpToDoButton extends StatelessWidget {
         side: border ? BorderSide(width: 1, color: AppColors.purple) : null,
       ),
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 12.0),
+        padding: const EdgeInsets.symmetric(vertical: 12.0,),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [

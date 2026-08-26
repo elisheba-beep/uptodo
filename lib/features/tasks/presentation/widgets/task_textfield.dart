@@ -8,12 +8,14 @@ class TaskTextfield extends StatelessWidget {
     required this.onChanged,
     required this.hintText,
     required this.borderColor,
+    required this.hasText,
   });
 
   final TextEditingController controller;
   final Function(String?) onChanged;
   final String hintText;
   final Color borderColor;
+  final bool hasText;
   @override
   Widget build(BuildContext context) {
     return TextField(
@@ -25,7 +27,9 @@ class TaskTextfield extends StatelessWidget {
         hintText: hintText,
         fillColor: Colors.transparent,
         filled: true,
-        contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        contentPadding: hasText
+            ? EdgeInsets.symmetric(horizontal: 16, vertical: 8)
+            : EdgeInsets.symmetric(horizontal: 0, vertical: 8),
         isDense: true,
         border: OutlineInputBorder(borderSide: BorderSide.none),
         focusedBorder: OutlineInputBorder(

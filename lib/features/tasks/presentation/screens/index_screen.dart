@@ -13,10 +13,11 @@ class IndexScreen extends StatefulWidget {
 
 class _IndexScreenState extends State<IndexScreen> {
   int currentScreenIndex = 0;
+  bool hasTask = false;
 
   List screens = [
     HomeScreen(),
-    HomeScreen(),
+    HomeScreen(hasTask: true),
     HomeScreen(),
     HomeScreen(),
     HomeScreen(),
