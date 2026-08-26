@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:uptodo/core/constant/app_colors.dart';
 import 'package:uptodo/core/constant/size_boxes.dart';
+import 'package:uptodo/features/categories/presentation/widgets/choose_category_modal.dart';
 import 'package:uptodo/features/tasks/presentation/widgets/calendar_modal.dart';
 import 'package:uptodo/features/tasks/presentation/widgets/task_priority_modal.dart';
 import 'package:uptodo/features/tasks/presentation/widgets/task_textfield.dart';
@@ -106,7 +107,14 @@ class _AddTaskModalState extends State<AddTaskModal> {
                       ),
                       16.widthBox,
                       IconButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.pop(context);
+                           showDialog(
+                            context: context,
+                            builder: (context) => ChooseCategoryModal(),
+                          );
+                        }
+                        ,
                         icon: SvgPicture.asset('assets/icons/tag.svg'),
                       ),
                       16.widthBox,
