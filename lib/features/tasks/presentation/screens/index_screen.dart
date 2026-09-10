@@ -1,23 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:uptodo/core/constant/app_colors.dart';
+import 'package:uptodo/core/providers/task_draft/task_draft_provider.dart';
 import 'package:uptodo/features/tasks/presentation/widgets/add_task_modal.dart';
 import 'package:uptodo/features/tasks/presentation/screens/home_screen.dart';
 
-class IndexScreen extends StatefulWidget {
+class IndexScreen extends ConsumerStatefulWidget {
   const IndexScreen({super.key});
 
   @override
-  State<IndexScreen> createState() => _IndexScreenState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _IndexScreenState();
 }
 
-class _IndexScreenState extends State<IndexScreen> {
+class _IndexScreenState extends ConsumerState<IndexScreen> {
   int currentScreenIndex = 0;
-  bool hasTask = false;
 
   List screens = [
     HomeScreen(),
-    HomeScreen(hasTask: true),
+    HomeScreen(),
     HomeScreen(),
     HomeScreen(),
     HomeScreen(),
@@ -51,6 +52,7 @@ class _IndexScreenState extends State<IndexScreen> {
         shape: const CircleBorder(),
         backgroundColor: AppColors.purple,
         onPressed: () {
+          ref.read(taskDraftProvider.notifier).startCreatingTask();
           showDialog(context: context, builder: (context) => AddTaskModal());
         },
         child: Icon(Icons.add, color: AppColors.white, size: 32),

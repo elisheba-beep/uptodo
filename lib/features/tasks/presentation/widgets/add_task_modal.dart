@@ -2,19 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:uptodo/core/constant/app_colors.dart';
 import 'package:uptodo/core/constant/size_boxes.dart';
-import 'package:uptodo/features/categories/presentation/widgets/choose_category_modal.dart';
+import 'package:uptodo/core/providers/task_draft/task_draft_provider.dart';
+import 'package:uptodo/core/providers/task_list/task_list_provider.dart';
 import 'package:uptodo/features/tasks/presentation/widgets/calendar_modal.dart';
 import 'package:uptodo/features/tasks/presentation/widgets/task_priority_modal.dart';
 import 'package:uptodo/features/tasks/presentation/widgets/task_textfield.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class AddTaskModal extends StatefulWidget {
+class AddTaskModal extends ConsumerStatefulWidget {
   const AddTaskModal({super.key});
 
   @override
-  State<AddTaskModal> createState() => _AddTaskModalState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _AddTaskModalState();
 }
 
-class _AddTaskModalState extends State<AddTaskModal> {
+class _AddTaskModalState extends ConsumerState<AddTaskModal> {
   late final TextEditingController taskController;
   late final TextEditingController descriptionController;
 
@@ -24,8 +26,9 @@ class _AddTaskModalState extends State<AddTaskModal> {
   @override
   void initState() {
     super.initState();
-    taskController = TextEditingController();
-    descriptionController = TextEditingController();
+    final currentDraft = ref.read(taskDraftProvider);
+    taskController = TextEditingController(text: currentDraft.title);
+    descriptionController = TextEditingController(text: currentDraft.desc);
   }
 
   @override
@@ -37,6 +40,9 @@ class _AddTaskModalState extends State<AddTaskModal> {
 
   @override
   Widget build(BuildContext context) {
+    final draft = ref.watch(taskDraftProvider);
+    final draftNotifier = ref.read(taskDraftProvider.notifier);
+    final taskListNotifier = ref.read(taskListProvider.notifier);
     return Dialog(
       insetPadding: EdgeInsets.zero,
       backgroundColor: AppColors.popUpBackgroundColor,
@@ -60,6 +66,8 @@ class _AddTaskModalState extends State<AddTaskModal> {
               hasText: taskHasText,
               controller: taskController,
               onChanged: (value) {
+                final text = value ?? '';
+                draftNotifier.updateTitle(text);
                 bool hasText = value!.trim().isNotEmpty;
                 if (hasText != taskHasText) {
                   setState(() {
@@ -73,9 +81,11 @@ class _AddTaskModalState extends State<AddTaskModal> {
                   : Colors.transparent,
             ),
             TaskTextfield(
-              hasText: taskHasText,
+              hasText: descriptionHasText,
               controller: descriptionController,
               onChanged: (value) {
+                final text = value ?? '';
+                draftNotifier.updateDesc(text.isEmpty ? null : text);
                 bool hasText = value!.trim().isNotEmpty;
                 if (hasText != descriptionHasText) {
                   setState(() {
@@ -97,24 +107,17 @@ class _AddTaskModalState extends State<AddTaskModal> {
                     children: [
                       IconButton(
                         onPressed: () {
-                          Navigator.pop(context);
                           showDialog(
                             context: context,
                             builder: (context) => CalendarModal(),
                           );
                         },
+
                         icon: SvgPicture.asset('assets/icons/timer.svg'),
                       ),
                       16.widthBox,
                       IconButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                           showDialog(
-                            context: context,
-                            builder: (context) => ChooseCategoryModal(),
-                          );
-                        }
-                        ,
+                        onPressed: () {},
                         icon: SvgPicture.asset('assets/icons/tag.svg'),
                       ),
                       16.widthBox,
@@ -133,7 +136,31 @@ class _AddTaskModalState extends State<AddTaskModal> {
                   ),
                 ),
                 IconButton(
-                  onPressed: () {},
+                  onPressed: draftNotifier.isValid
+                      ? () {
+                          if (draft.id.isEmpty) {
+                            taskListNotifier.addTask(
+                              draft.title,
+                              draft.desc,
+                              draft.updatedAt,
+                              draft.tag,
+                              draft.priority,
+                            );
+                          } else {
+                            // 🛠️ Editing an existing task
+                            taskListNotifier.editTask(
+                              draft.id,
+                              draft.title,
+                              draft.desc,
+                              draft.updatedAt,
+                              draft.tag,
+                              draft.priority,
+                            );
+                          }
+                          Navigator.pop(context);
+                          draftNotifier.startCreatingTask();
+                        }
+                      : null,
                   icon: SvgPicture.asset('assets/icons/send.svg'),
                 ),
               ],

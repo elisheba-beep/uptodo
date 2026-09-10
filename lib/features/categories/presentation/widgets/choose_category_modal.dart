@@ -1,17 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:uptodo/core/constant/app_colors.dart';
 import 'package:uptodo/core/constant/navigation.dart';
 import 'package:uptodo/core/constant/size_boxes.dart';
+import 'package:uptodo/core/providers/task_draft/task_draft_provider.dart';
 import 'package:uptodo/core/widgets/uptodo_button.dart';
 import 'package:uptodo/features/categories/data/category_list.dart';
 import 'package:uptodo/features/categories/presentation/screens/create_new_category_screen.dart';
+import 'package:uptodo/features/tasks/presentation/widgets/add_task_modal.dart';
 
-class ChooseCategoryModal extends StatelessWidget {
+class ChooseCategoryModal extends ConsumerWidget {
   const ChooseCategoryModal({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Dialog(
       insetPadding: EdgeInsets.symmetric(horizontal: 19),
       backgroundColor: AppColors.popUpBackgroundColor,
@@ -42,7 +45,11 @@ class ChooseCategoryModal extends StatelessWidget {
                   children: [
                     GestureDetector(
                       onTap: () {
+                        ref
+                            .read(taskDraftProvider.notifier)
+                            .updateTag(categories[index].categoryName);
                         Navigator.pop(context);
+
                         if (index == categories.length - 1) {
                           context.pushTo(CreateNewCategoryScreen());
                         }

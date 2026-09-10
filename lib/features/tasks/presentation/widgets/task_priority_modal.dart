@@ -1,18 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:uptodo/core/constant/app_colors.dart';
 import 'package:uptodo/core/constant/size_boxes.dart';
+import 'package:uptodo/core/providers/task_draft/task_draft_provider.dart';
 import 'package:uptodo/core/widgets/uptodo_button.dart';
+import 'package:uptodo/features/categories/presentation/widgets/choose_category_modal.dart';
 import 'package:uptodo/features/tasks/presentation/widgets/add_task_modal.dart';
 
-class TaskPriorityModal extends StatefulWidget {
+class TaskPriorityModal extends ConsumerStatefulWidget {
   const TaskPriorityModal({super.key});
 
   @override
-  State<TaskPriorityModal> createState() => _TaskPriorityModalState();
+  ConsumerState<ConsumerStatefulWidget> createState() =>
+      _TaskPriorityModalState();
 }
 
-class _TaskPriorityModalState extends State<TaskPriorityModal> {
+class _TaskPriorityModalState extends ConsumerState<TaskPriorityModal> {
   int _selectedIndex = -1;
 
   @override
@@ -48,6 +52,9 @@ class _TaskPriorityModalState extends State<TaskPriorityModal> {
                     setState(() {
                       _selectedIndex = index;
                     });
+                    ref
+                        .read(taskDraftProvider.notifier)
+                        .updatePriority(_selectedIndex + 1);
                   },
                   child: Container(
                     decoration: BoxDecoration(
@@ -96,6 +103,10 @@ class _TaskPriorityModalState extends State<TaskPriorityModal> {
                   backgroundColour: AppColors.purple,
                   onPressed: () {
                     Navigator.pop(context);
+                    showDialog(
+                      context: context,
+                      builder: (context) => ChooseCategoryModal(),
+                    );
                   },
                 ),
               ],

@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uptodo/core/constant/app_colors.dart';
 import 'package:uptodo/features/onboarding/presentation/screens/onboarding_screen.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(ProviderScope(child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -20,8 +21,7 @@ class MyApp extends StatelessWidget {
         appBarTheme: AppBarTheme(
           backgroundColor: AppColors.backgroundColor,
           elevation: 0,
-          surfaceTintColor:
-              Colors.transparent, 
+          surfaceTintColor: Colors.transparent,
         ),
       ),
       home: OnboardingScreen(),
