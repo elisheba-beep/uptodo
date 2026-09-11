@@ -40,14 +40,19 @@ class _OnboardingScreenState extends State<OnboardingScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leadingWidth: 80,
-        leading: UpToDoButton(
-          onPressed: () {
-            context.pushTo(StartScreen());
-          },
-          backgroundColour: AppColors.backgroundColor,
-          text: 'SKIP',
-          textColour: AppColors.mediumDarkGray,
+        leadingWidth: double.infinity,
+        leading: Align(
+          alignment: Alignment.centerLeft,
+          child: IntrinsicWidth(
+            child: UpToDoButton(
+              onPressed: () {
+                context.pushTo(StartScreen());
+              },
+              backgroundColour: AppColors.backgroundColor,
+              text: 'SKIP',
+              textColour: AppColors.mediumDarkGray,
+            ),
+          ),
         ),
       ),
       body: Padding(

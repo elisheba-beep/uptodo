@@ -18,24 +18,26 @@ class HomeScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final tasks = ref.watch(taskListProvider);
     return tasks.isNotEmpty
-        ? Padding(
-            padding: const EdgeInsets.all(24),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                TaskSearchBar(),
-                20.heightBox,
-                TaskFilter(filterValue: Filter.all),
-                16.heightBox,
-                ShowTasks(filter: Filter.all),
-                16.heightBox,
-                TaskFilter(filterValue: Filter.completed),
-                16.heightBox,
-                ShowTasks(filter: Filter.completed),
-              ],
+        ? SingleChildScrollView(
+          child: Padding(
+              padding: const EdgeInsets.all(24),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  TaskSearchBar(),
+                  20.heightBox,
+                  TaskFilter(filterValue: Filter.all),
+                  16.heightBox,
+                  ShowTasks(filter: Filter.all),
+                  16.heightBox,
+                  TaskFilter(filterValue: Filter.completed),
+                  16.heightBox,
+                  ShowTasks(filter: Filter.completed),
+                ],
+              ),
             ),
-          )
+        )
         : Center(
             child: Column(
               children: [

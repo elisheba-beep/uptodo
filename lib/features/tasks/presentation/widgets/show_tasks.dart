@@ -4,7 +4,7 @@ import 'package:uptodo/core/constant/navigation.dart';
 import 'package:uptodo/core/constant/size_boxes.dart';
 import 'package:uptodo/core/models/task_model.dart';
 import 'package:uptodo/core/providers/filtered_tasks/filtered_tasks_provider.dart';
-import 'package:uptodo/core/providers/task_draft/task_draft_provider.dart';
+import 'package:uptodo/core/providers/task_card/task_card_provider.dart';
 import 'package:uptodo/features/tasks/presentation/screens/edit_task_screen.dart';
 import 'package:uptodo/features/tasks/presentation/widgets/task_card.dart';
 
@@ -24,13 +24,16 @@ class ShowTasks extends ConsumerWidget {
       },
       itemBuilder: (BuildContext context, int index) {
         final task = filteredTasks[index];
-        return TaskCard(
-          task: task,
-          onTap: () {
-            print('tapped');
-            ref.read(taskDraftProvider.notifier).startUpdatingTask(task.id);
-            context.pushTo(EditTaskScreen());
-          },
+        return ProviderScope(
+          overrides: [taskCardProvider.overrideWithValue(task)],
+          child: TaskCard(
+           
+            onTap: () {
+              context.pushTo(ProviderScope(
+                overrides: [taskCardProvider.overrideWithValue(task)],
+                child: EditTaskScreen()));
+            },
+          ),
         );
       },
     );

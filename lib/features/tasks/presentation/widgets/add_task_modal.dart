@@ -26,9 +26,9 @@ class _AddTaskModalState extends ConsumerState<AddTaskModal> {
   @override
   void initState() {
     super.initState();
-    final currentDraft = ref.read(taskDraftProvider);
-    taskController = TextEditingController(text: currentDraft.title);
-    descriptionController = TextEditingController(text: currentDraft.desc);
+
+    taskController = TextEditingController();
+    descriptionController = TextEditingController();
   }
 
   @override
@@ -43,6 +43,16 @@ class _AddTaskModalState extends ConsumerState<AddTaskModal> {
     final draft = ref.watch(taskDraftProvider);
     final draftNotifier = ref.read(taskDraftProvider.notifier);
     final taskListNotifier = ref.read(taskListProvider.notifier);
+
+    if (taskController.text != draft.title) {
+      taskController.text = draft.title;
+    }
+    if (descriptionController.text != (draft.desc ?? '')) {
+      descriptionController.text = draft.desc ?? '';
+    }
+
+    bool taskHasText = draft.title.trim().isNotEmpty;
+    bool descriptionHasText = (draft.desc ?? '').trim().isNotEmpty;
     return Dialog(
       insetPadding: EdgeInsets.zero,
       backgroundColor: AppColors.popUpBackgroundColor,
@@ -66,14 +76,7 @@ class _AddTaskModalState extends ConsumerState<AddTaskModal> {
               hasText: taskHasText,
               controller: taskController,
               onChanged: (value) {
-                final text = value ?? '';
-                draftNotifier.updateTitle(text);
-                bool hasText = value!.trim().isNotEmpty;
-                if (hasText != taskHasText) {
-                  setState(() {
-                    taskHasText = hasText;
-                  });
-                }
+                draftNotifier.updateTitle(value ?? '');
               },
               hintText: 'Task',
               borderColor: taskHasText
@@ -86,12 +89,6 @@ class _AddTaskModalState extends ConsumerState<AddTaskModal> {
               onChanged: (value) {
                 final text = value ?? '';
                 draftNotifier.updateDesc(text.isEmpty ? null : text);
-                bool hasText = value!.trim().isNotEmpty;
-                if (hasText != descriptionHasText) {
-                  setState(() {
-                    descriptionHasText = hasText;
-                  });
-                }
               },
               hintText: 'Description',
               borderColor: descriptionHasText
@@ -147,7 +144,6 @@ class _AddTaskModalState extends ConsumerState<AddTaskModal> {
                               draft.priority,
                             );
                           } else {
-                            // 🛠️ Editing an existing task
                             taskListNotifier.editTask(
                               draft.id,
                               draft.title,
@@ -158,9 +154,11 @@ class _AddTaskModalState extends ConsumerState<AddTaskModal> {
                             );
                           }
                           Navigator.pop(context);
+
                           draftNotifier.startCreatingTask();
                         }
                       : null,
+
                   icon: SvgPicture.asset('assets/icons/send.svg'),
                 ),
               ],

@@ -1,19 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:intl/intl.dart';
 import 'package:uptodo/core/constant/app_colors.dart';
 import 'package:uptodo/core/constant/size_boxes.dart';
-import 'package:uptodo/core/models/task_model.dart';
+import 'package:uptodo/core/providers/task_card/task_card_provider.dart';
 import 'package:uptodo/core/providers/task_list/task_list_provider.dart';
 
 class TaskCard extends ConsumerWidget {
-  const TaskCard({super.key, required this.onTap, required this.task});
+  const TaskCard({super.key, required this.onTap});
 
-  final Task task;
   final void Function() onTap;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final task = ref.watch(taskCardProvider);
+    final String formattedTime = DateFormat(
+      'yyyy-MM-dd HH:mm',
+    ).format(task.updatedAt);
     return GestureDetector(
       onTap: onTap,
       child: Container(
@@ -51,7 +55,7 @@ class TaskCard extends ConsumerWidget {
                   ),
                   4.heightBox,
                   Text(
-                    task.updatedAt.toString(),
+                    formattedTime,
                     style: TextStyle(
                       fontSize: 14,
                       letterSpacing: -0.32,

@@ -1,21 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_time_picker_spinner/flutter_time_picker_spinner.dart';
+import 'package:intl/intl.dart';
 import 'package:uptodo/core/constant/app_colors.dart';
 import 'package:uptodo/core/constant/size_boxes.dart';
+import 'package:uptodo/core/providers/task_draft/task_draft_provider.dart';
 import 'package:uptodo/core/widgets/uptodo_button.dart';
 import 'package:uptodo/features/categories/presentation/widgets/choose_category_modal.dart';
 import 'package:uptodo/features/tasks/presentation/widgets/add_task_modal.dart';
 import 'package:uptodo/features/tasks/presentation/widgets/calendar_modal.dart';
 import 'package:uptodo/features/tasks/presentation/widgets/task_priority_modal.dart';
 
-class ChooseTimeModal extends StatefulWidget {
+class ChooseTimeModal extends ConsumerStatefulWidget {
   const ChooseTimeModal({super.key});
 
   @override
-  State<ChooseTimeModal> createState() => _ChooseTimeModalState();
+  ConsumerState<ConsumerStatefulWidget> createState() =>
+      _ChooseTimeModalState();
 }
 
-class _ChooseTimeModalState extends State<ChooseTimeModal> {
+class _ChooseTimeModalState extends ConsumerState<ChooseTimeModal> {
   DateTime _selectedTime = DateTime.now();
 
   @override
@@ -76,11 +80,24 @@ class _ChooseTimeModalState extends State<ChooseTimeModal> {
                   textColour: AppColors.white,
                   backgroundColour: AppColors.purple,
                   onPressed: () {
+                    final existingDate = ref.read(taskDraftProvider).updatedAt;
+
+                    final combinedDateTime = DateTime(
+                      existingDate.year,
+                      existingDate.month,
+                      existingDate.day,
+                      _selectedTime.hour,
+                      _selectedTime.minute,
+                    );
+
+                    ref
+                        .read(taskDraftProvider.notifier)
+                        .updateDateTime(combinedDateTime);
                     Navigator.pop(context);
-                           showDialog(
-                            context: context,
-                            builder: (context) => TaskPriorityModal(),
-                          );
+                    showDialog(
+                      context: context,
+                      builder: (context) => TaskPriorityModal(),
+                    );
                   },
                 ),
               ],
