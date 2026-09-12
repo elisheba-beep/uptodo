@@ -12,7 +12,8 @@ part of 'task_list_provider.dart';
 @ProviderFor(TaskList)
 final taskListProvider = TaskListProvider._();
 
-final class TaskListProvider extends $NotifierProvider<TaskList, List<Task>> {
+final class TaskListProvider
+    extends $NotifierProvider<TaskList, TaskListState> {
   TaskListProvider._()
     : super(
         from: null,
@@ -32,27 +33,27 @@ final class TaskListProvider extends $NotifierProvider<TaskList, List<Task>> {
   TaskList create() => TaskList();
 
   /// {@macro riverpod.override_with_value}
-  Override overrideWithValue(List<Task> value) {
+  Override overrideWithValue(TaskListState value) {
     return $ProviderOverride(
       origin: this,
-      providerOverride: $SyncValueProvider<List<Task>>(value),
+      providerOverride: $SyncValueProvider<TaskListState>(value),
     );
   }
 }
 
-String _$taskListHash() => r'edf089ced69d0742286e2a846a493c66b46622d8';
+String _$taskListHash() => r'ca1ec222ca7fbccc3247aff29b7f9adadc539c00';
 
-abstract class _$TaskList extends $Notifier<List<Task>> {
-  List<Task> build();
+abstract class _$TaskList extends $Notifier<TaskListState> {
+  TaskListState build();
   @$mustCallSuper
   @override
   void runBuild() {
-    final ref = this.ref as $Ref<List<Task>, List<Task>>;
+    final ref = this.ref as $Ref<TaskListState, TaskListState>;
     final element =
         ref.element
             as $ClassProviderElement<
-              AnyNotifier<List<Task>, List<Task>>,
-              List<Task>,
+              AnyNotifier<TaskListState, TaskListState>,
+              TaskListState,
               Object?,
               Object?
             >;

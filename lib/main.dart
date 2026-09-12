@@ -2,11 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uptodo/core/constant/app_colors.dart';
 import 'package:uptodo/core/providers/theme/theme_provider.dart';
+import 'package:uptodo/core/repositories/fake_tasks_repository.dart';
+import 'package:uptodo/core/repositories/providers/tasks_repository_provider.dart';
 import 'package:uptodo/core/widgets/theme_data.dart';
 import 'package:uptodo/features/onboarding/presentation/screens/onboarding_screen.dart';
 
 void main() {
-  runApp(ProviderScope(child: const MyApp()));
+  runApp(
+    ProviderScope(
+      overrides: [
+        tasksRepositoryProvider.overrideWithValue(FakeTasksRepository()),
+      ],
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends ConsumerWidget {

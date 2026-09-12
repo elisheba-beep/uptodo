@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$Task {
 
- String get id; String get title; String? get desc;@CustomDateTimeConverter() DateTime get updatedAt; String get tag; int get priority; bool get completed;
+ String get id; String get title; String? get desc; DateTime get updatedAt; String get tag; int get priority; bool get completed;
 /// Create a copy of Task
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -48,7 +48,7 @@ abstract mixin class $TaskCopyWith<$Res>  {
   factory $TaskCopyWith(Task value, $Res Function(Task) _then) = _$TaskCopyWithImpl;
 @useResult
 $Res call({
- String id, String title, String? desc,@CustomDateTimeConverter() DateTime updatedAt, String tag, int priority, bool completed
+ String id, String title, String? desc, DateTime updatedAt, String tag, int priority, bool completed
 });
 
 
@@ -159,7 +159,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String title,  String? desc, @CustomDateTimeConverter()  DateTime updatedAt,  String tag,  int priority,  bool completed)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String title,  String? desc,  DateTime updatedAt,  String tag,  int priority,  bool completed)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Task() when $default != null:
 return $default(_that.id,_that.title,_that.desc,_that.updatedAt,_that.tag,_that.priority,_that.completed);case _:
@@ -180,7 +180,7 @@ return $default(_that.id,_that.title,_that.desc,_that.updatedAt,_that.tag,_that.
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String title,  String? desc, @CustomDateTimeConverter()  DateTime updatedAt,  String tag,  int priority,  bool completed)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String title,  String? desc,  DateTime updatedAt,  String tag,  int priority,  bool completed)  $default,) {final _that = this;
 switch (_that) {
 case _Task():
 return $default(_that.id,_that.title,_that.desc,_that.updatedAt,_that.tag,_that.priority,_that.completed);case _:
@@ -200,7 +200,7 @@ return $default(_that.id,_that.title,_that.desc,_that.updatedAt,_that.tag,_that.
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String title,  String? desc, @CustomDateTimeConverter()  DateTime updatedAt,  String tag,  int priority,  bool completed)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String title,  String? desc,  DateTime updatedAt,  String tag,  int priority,  bool completed)?  $default,) {final _that = this;
 switch (_that) {
 case _Task() when $default != null:
 return $default(_that.id,_that.title,_that.desc,_that.updatedAt,_that.tag,_that.priority,_that.completed);case _:
@@ -215,13 +215,13 @@ return $default(_that.id,_that.title,_that.desc,_that.updatedAt,_that.tag,_that.
 @JsonSerializable()
 
 class _Task implements Task {
-  const _Task({required this.id, required this.title, this.desc, @CustomDateTimeConverter() required this.updatedAt, required this.tag, required this.priority, this.completed = false});
+  const _Task({required this.id, required this.title, this.desc, required this.updatedAt, required this.tag, required this.priority, this.completed = false});
   factory _Task.fromJson(Map<String, dynamic> json) => _$TaskFromJson(json);
 
 @override final  String id;
 @override final  String title;
 @override final  String? desc;
-@override@CustomDateTimeConverter() final  DateTime updatedAt;
+@override final  DateTime updatedAt;
 @override final  String tag;
 @override final  int priority;
 @override@JsonKey() final  bool completed;
@@ -259,7 +259,7 @@ abstract mixin class _$TaskCopyWith<$Res> implements $TaskCopyWith<$Res> {
   factory _$TaskCopyWith(_Task value, $Res Function(_Task) _then) = __$TaskCopyWithImpl;
 @override @useResult
 $Res call({
- String id, String title, String? desc,@CustomDateTimeConverter() DateTime updatedAt, String tag, int priority, bool completed
+ String id, String title, String? desc, DateTime updatedAt, String tag, int priority, bool completed
 });
 
 

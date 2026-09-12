@@ -66,7 +66,7 @@ final class FilteredTasksProvider
   }
 }
 
-String _$filteredTasksHash() => r'fa78e63d13531a652a6c5be42a1673f3abd05b1b';
+String _$filteredTasksHash() => r'17b8e20218bf91e4cdabfc2df93eb58e26087bb0';
 
 final class FilteredTasksFamily extends $Family
     with $FunctionalFamilyOverride<List<Task>, Filter> {

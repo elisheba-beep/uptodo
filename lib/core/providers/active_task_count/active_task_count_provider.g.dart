@@ -47,4 +47,4 @@ final class ActiveTaskCountProvider extends $FunctionalProvider<int, int, int>
   }
 }
 
-String _$activeTaskCountHash() => r'2179f1890f951cc10915fe76d07e1696bdd4f536';
+String _$activeTaskCountHash() => r'97fa88cf355f73806f8f48b126a490f8e7fd5e12';

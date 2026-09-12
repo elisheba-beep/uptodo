@@ -5,6 +5,6 @@ part 'active_task_count_provider.g.dart';
 
 @riverpod
 int activeTaskCount(Ref ref) {
-  final tasks = ref.watch(taskListProvider);
-  return tasks.where((task) => !task.completed).toList().length;
+  final taskListState = ref.watch(taskListProvider);
+  return taskListState.tasks.where((task) => !task.completed).toList().length;
 }

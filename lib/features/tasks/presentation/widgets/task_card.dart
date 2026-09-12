@@ -3,14 +3,15 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 import 'package:uptodo/core/constant/app_colors.dart';
+import 'package:uptodo/core/constant/navigation.dart';
 import 'package:uptodo/core/constant/size_boxes.dart';
 import 'package:uptodo/core/providers/task_card/task_card_provider.dart';
 import 'package:uptodo/core/providers/task_list/task_list_provider.dart';
+import 'package:uptodo/features/tasks/presentation/screens/edit_task_screen.dart';
 
 class TaskCard extends ConsumerWidget {
-  const TaskCard({super.key, required this.onTap});
+  const TaskCard({super.key});
 
-  final void Function() onTap;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -19,7 +20,12 @@ class TaskCard extends ConsumerWidget {
       'yyyy-MM-dd HH:mm',
     ).format(task.updatedAt);
     return GestureDetector(
-      onTap: onTap,
+      onTap: (){
+        context.pushTo(
+                      EditTaskScreen(task:task),
+                    );
+                  
+      },
       child: Container(
         padding: EdgeInsets.all(12),
         decoration: BoxDecoration(

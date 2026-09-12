@@ -4,14 +4,14 @@ import 'package:intl/intl.dart';
 import 'package:uptodo/core/constant/app_colors.dart';
 import 'package:uptodo/core/constant/size_boxes.dart';
 import 'package:uptodo/core/models/task_model.dart';
-import 'package:uptodo/core/providers/task_card/task_card_provider.dart';
 import 'package:uptodo/core/providers/task_draft/task_draft_provider.dart';
 import 'package:uptodo/core/providers/task_list/task_list_provider.dart';
 import 'package:uptodo/core/widgets/uptodo_button.dart';
 import 'package:uptodo/features/tasks/presentation/widgets/add_task_modal.dart';
 
 class EditTaskScreen extends ConsumerStatefulWidget {
-  const EditTaskScreen({super.key});
+  const EditTaskScreen({super.key, required this.task});
+  final Task task;
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _EditTaskScreenState();
@@ -20,10 +20,10 @@ class EditTaskScreen extends ConsumerStatefulWidget {
 class _EditTaskScreenState extends ConsumerState<EditTaskScreen> {
   @override
   Widget build(BuildContext context) {
-    final cardTask = ref.watch(taskCardProvider);
     final currentTask = ref
         .watch(taskListProvider)
-        .firstWhere((task) => task.id == cardTask.id, orElse: () => cardTask);
+        .tasks
+        .firstWhere((task) => task.id == widget.task.id, orElse: () => widget.task);
 
     final String formattedTime = DateFormat(
       'yyyy-MM-dd HH:mm',
@@ -56,7 +56,7 @@ class _EditTaskScreenState extends ConsumerState<EditTaskScreen> {
               tileColor: Colors.transparent,
               leading: Checkbox(
                 activeColor: AppColors.white,
-                value: false,
+                value: currentTask.completed,
                 shape: const CircleBorder(),
                 onChanged: (bool? checked) {
                   ref
@@ -84,7 +84,7 @@ class _EditTaskScreenState extends ConsumerState<EditTaskScreen> {
                       .startUpdatingTask(currentTask.id);
                   showDialog(
                     context: context,
-                    builder: (context) => AddTaskModal(),
+                    builder: (context) => AddTaskModal(task: currentTask),
                   );
                 },
                 icon: Icon(Icons.edit),
@@ -157,7 +157,7 @@ class _EditTaskScreenState extends ConsumerState<EditTaskScreen> {
 
                 showDialog(
                   context: context,
-                  builder: (context) => const AddTaskModal(),
+                  builder: (context) => AddTaskModal(task: currentTask),
                 );
               },
             ),

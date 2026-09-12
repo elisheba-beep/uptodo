@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:uptodo/core/constant/app_colors.dart';
 import 'package:uptodo/core/constant/size_boxes.dart';
+import 'package:uptodo/core/models/task_model.dart';
 import 'package:uptodo/core/providers/task_draft/task_draft_provider.dart';
 import 'package:uptodo/core/providers/task_list/task_list_provider.dart';
 import 'package:uptodo/features/tasks/presentation/widgets/calendar_modal.dart';
@@ -10,7 +11,9 @@ import 'package:uptodo/features/tasks/presentation/widgets/task_textfield.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class AddTaskModal extends ConsumerStatefulWidget {
-  const AddTaskModal({super.key});
+  const AddTaskModal({super.key, this.task});
+
+  final Task? task;
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _AddTaskModalState();
@@ -26,9 +29,13 @@ class _AddTaskModalState extends ConsumerState<AddTaskModal> {
   @override
   void initState() {
     super.initState();
-
-    taskController = TextEditingController();
-    descriptionController = TextEditingController();
+    taskController = TextEditingController(
+      text: widget.task?.title ?? '',
+    );
+    
+    descriptionController = TextEditingController(
+      text: widget.task?.desc ?? '',
+    );
   }
 
   @override
@@ -44,12 +51,12 @@ class _AddTaskModalState extends ConsumerState<AddTaskModal> {
     final draftNotifier = ref.read(taskDraftProvider.notifier);
     final taskListNotifier = ref.read(taskListProvider.notifier);
 
-    if (taskController.text != draft.title) {
-      taskController.text = draft.title;
-    }
-    if (descriptionController.text != (draft.desc ?? '')) {
-      descriptionController.text = draft.desc ?? '';
-    }
+    // if (taskController.text != draft.title) {
+    //   taskController.text = draft.title;
+    // }
+    // if (descriptionController.text != (draft.desc ?? '')) {
+    //   descriptionController.text = draft.desc ?? '';
+    // }
 
     bool taskHasText = draft.title.trim().isNotEmpty;
     bool descriptionHasText = (draft.desc ?? '').trim().isNotEmpty;

@@ -7,7 +7,7 @@ part 'filtered_tasks_provider.g.dart';
 
 @riverpod
 List<Task> filteredTasks(Ref ref, Filter filter) {
-  final tasks = ref.watch(taskListProvider);
+  final taskListState = ref.watch(taskListProvider);
   final search = ref.watch(taskSearchProvider);
 
   List<Task> tempTasks;
@@ -16,14 +16,14 @@ List<Task> filteredTasks(Ref ref, Filter filter) {
   final startOfToday = DateTime(now.year, now.month, now.day);
   final startOfTomorrow = startOfToday.add(Duration(days: 1));
   tempTasks = switch (filter) {
-    Filter.today => tasks.where((task) {
+    Filter.today => taskListState.tasks.where((task) {
       final date = task.updatedAt;
       return (date.isAfter(startOfToday) ||
               date.isAtSameMomentAs(startOfToday)) &&
           date.isBefore(startOfTomorrow);
     }).toList(),
-    Filter.completed => tasks.where((task) => task.completed).toList(),
-    Filter.all => tasks,
+    Filter.completed => taskListState.tasks.where((task) => task.completed).toList(),
+    Filter.all => taskListState.tasks,
   };
   if (search.isNotEmpty) {
     tempTasks = tempTasks

@@ -25,8 +25,8 @@ class TaskDraft extends _$TaskDraft {
   void startCreatingTask() => state = _initialTaskDraft();
 
   void startUpdatingTask(String currentTaskId) {
-    final tasks = ref.read(taskListProvider);
-    final currentTask = tasks.firstWhere((task) => task.id == currentTaskId);
+    final taskListState = ref.read(taskListProvider);
+    final currentTask = taskListState.tasks.firstWhere((task) => task.id == currentTaskId);
 
     state = currentTask;
   }

@@ -1,91 +1,144 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:uptodo/core/models/task_model.dart';
+import 'package:uptodo/core/providers/task_list/task_list_state.dart';
+import 'package:uptodo/core/repositories/providers/tasks_repository_provider.dart';
 
 part 'task_list_provider.g.dart';
 
 @riverpod
 class TaskList extends _$TaskList {
   @override
-  List<Task> build() {
-    return [
-      Task(
-        id: '1',
-        title: 'Do Math Homework',
-        desc: 'Do chapter 2 to 5 for next week',
-        updatedAt: DateTime(2026, 01, 01, 16, 45),
-        tag: 'University',
-        priority: 1,
-      ),
-      Task(
-        id: '2',
-        title: 'Take out dogs',
-        updatedAt: DateTime(2026, 01, 03, 18, 20),
-        tag: 'Home',
-        priority: 2,
-      ),
-      Task(
-        id: '3',
-        title: 'Business meeting with CEO',
-        updatedAt: DateTime(2026, 01, 05, 20, 15),
-        tag: 'Work',
-        priority: 3,
-      ),
-    ];
+  TaskListState build() {
+    return TaskListState.initial();
   }
 
-  void addTask(
+  Future<void> getTasks() async {
+    state = state.copyWith(status: TaskListStatus.loading);
+
+    try {
+      final tasks = await ref.read(tasksRepositoryProvider).getTasks();
+      state = state.copyWith(status: TaskListStatus.success, tasks: tasks);
+    } catch (e) {
+      state = state.copyWith(
+        status: TaskListStatus.failure,
+        error: e.toString(),
+      );
+    }
+  }
+
+  Future<void> addTask(
     String title,
     String? desc,
     DateTime updatedAt,
     String tag,
     int priority,
-  ) {
-    state = [
-      ...state,
-      Task.add(
+  ) async {
+    state = state.copyWith(status: TaskListStatus.loading);
+
+    try {
+      final newTask = Task.add(
         title: title,
-        desc: desc,
         updatedAt: updatedAt,
         tag: tag,
         priority: priority,
-      ),
-    ];
+      );
+      await ref.read(tasksRepositoryProvider).addTask(task: newTask);
+
+      state = state.copyWith(
+        status: TaskListStatus.success,
+        tasks: [...state.tasks, newTask],
+      );
+    } catch (e) {
+      state = state.copyWith(
+        status: TaskListStatus.failure,
+        error: e.toString(),
+      );
+    }
   }
 
-  void editTask(
+  Future<void> editTask(
     String id,
     String? title,
     String? desc,
     DateTime? updatedAt,
     String? tag,
     int? priority,
-  ) {
-    state = [
-      for (final task in state)
-        if (task.id == id)
-          task.copyWith(
-            title: title ?? task.title,
-            desc: desc ?? task.desc,
-            updatedAt: updatedAt ?? task.updatedAt,
-            tag: tag ?? task.tag,
-            priority: priority ?? task.priority,
-          )
-        else
-          task,
-    ];
+  ) async {
+    state = state.copyWith(status: TaskListStatus.loading);
+
+    try {
+      await ref
+          .read(tasksRepositoryProvider)
+          .editTask(
+            id: id,
+            title: title,
+            updatedAt: updatedAt,
+            tag: tag,
+            priority: priority,
+          );
+      state = state.copyWith(
+        status: TaskListStatus.success,
+        tasks: [
+          for (final task in state.tasks)
+            if (task.id == id)
+              task.copyWith(
+                title: title ?? task.title,
+                desc: desc ?? task.desc,
+                updatedAt: updatedAt ?? task.updatedAt,
+                tag: tag ?? task.tag,
+                priority: priority ?? task.priority,
+              )
+            else
+              task,
+        ],
+      );
+    } catch (e) {
+      state = state.copyWith(
+        status: TaskListStatus.failure,
+        error: e.toString(),
+      );
+    }
   }
 
-  void toggleTask(String id) {
-    state = [
-      for (final task in state)
-        if (task.id == id) task.copyWith(completed: !task.completed) else task,
-    ];
+  Future<void> toggleTask(String id) async {
+    state = state.copyWith(status: TaskListStatus.loading);
+
+    try {
+      await ref.read(tasksRepositoryProvider).toggleTask(id: id);
+      state = state.copyWith(
+        status: TaskListStatus.success,
+        tasks: [
+          for (final task in state.tasks)
+            if (task.id == id)
+              task.copyWith(completed: !task.completed)
+            else
+              task,
+        ],
+      );
+    } catch (e) {
+      state = state.copyWith(
+        status: TaskListStatus.failure,
+        error: e.toString(),
+      );
+    }
   }
 
-  void deleteTask(String id) {
-    state = [
-      for (final task in state)
-        if (task.id != id) task,
-    ];
+  Future<void> deleteTask(String id) async {
+    state = state.copyWith(status: TaskListStatus.loading);
+
+    try {
+      state = state.copyWith(
+        status: TaskListStatus.success,
+        tasks: [
+          for (final task in state.tasks)
+            if (task.id != id) task,
+        ],
+      );
+    } catch (e) {
+      state = state.copyWith(
+        status: TaskListStatus.failure,
+        error: e.toString(),
+      );
+    }
   }
 }

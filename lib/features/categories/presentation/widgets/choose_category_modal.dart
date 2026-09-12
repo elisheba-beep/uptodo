@@ -15,6 +15,7 @@ class ChooseCategoryModal extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final task = ref.watch(taskDraftProvider);
     return Dialog(
       insetPadding: EdgeInsets.symmetric(horizontal: 19),
       backgroundColor: AppColors.popUpBackgroundColor,
@@ -36,9 +37,9 @@ class ChooseCategoryModal extends ConsumerWidget {
               itemCount: categories.length,
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 3,
-                crossAxisSpacing: 45,
+                crossAxisSpacing: 32,
                 mainAxisSpacing: 16,
-                childAspectRatio: .62,
+                childAspectRatio: 1,
               ),
               itemBuilder: (context, index) {
                 return Column(
@@ -79,9 +80,11 @@ class ChooseCategoryModal extends ConsumerWidget {
               text: 'Add Category',
               textColour: AppColors.white,
               backgroundColour: AppColors.purple,
-              onPressed: () {
-                Navigator.pop(context);
-              },
+              onPressed: task.tag.isNotEmpty
+                  ? () {
+                      Navigator.pop(context);
+                    }
+                  : null,
             ),
           ],
         ),
