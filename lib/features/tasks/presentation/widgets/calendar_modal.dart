@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:uptodo/core/constant/app_colors.dart';
 import 'package:uptodo/core/constant/size_boxes.dart';
-import 'package:uptodo/core/providers/task_draft/task_draft_provider.dart';
 import 'package:uptodo/core/widgets/uptodo_button.dart';
+import 'package:uptodo/features/tasks/presentation/providers/task_draft/task_draft_provider.dart';
 import 'package:uptodo/features/tasks/presentation/widgets/add_task_modal.dart';
 import 'package:uptodo/features/tasks/presentation/widgets/choose_time_modal.dart';
 

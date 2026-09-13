@@ -1,5 +1,5 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:uptodo/core/providers/task_list/task_list_provider.dart';
+import 'package:uptodo/features/tasks/presentation/providers/task_list/task_list_provider.dart';
 
 part 'active_task_count_provider.g.dart';
 

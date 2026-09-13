@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:uptodo/core/constant/app_colors.dart';
-import 'package:uptodo/core/providers/task_draft/task_draft_provider.dart';
 import 'package:uptodo/core/providers/theme/theme_provider.dart';
+import 'package:uptodo/features/tasks/presentation/providers/task_draft/task_draft_provider.dart';
 import 'package:uptodo/features/tasks/presentation/widgets/add_task_modal.dart';
 import 'package:uptodo/features/tasks/presentation/screens/home_screen.dart';
 

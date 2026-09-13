@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 ThemeData buildTheme(Brightness brightness, Color bgColor) {
   return ThemeData(
     brightness: brightness,
-    fontFamily: 'Lato', // Your regular font setting
+    fontFamily: 'Lato', 
     scaffoldBackgroundColor: bgColor,
     appBarTheme: AppBarTheme(
       backgroundColor: bgColor,

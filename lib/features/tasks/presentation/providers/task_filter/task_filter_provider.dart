@@ -1,5 +1,5 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:uptodo/core/models/task_model.dart';
+import 'package:uptodo/features/tasks/domain/models/task_model.dart';
 
 part 'task_filter_provider.g.dart';
 

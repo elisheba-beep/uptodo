@@ -3,9 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:uptodo/core/constant/app_colors.dart';
 import 'package:uptodo/core/constant/size_boxes.dart';
-import 'package:uptodo/core/providers/task_draft/task_draft_provider.dart';
 import 'package:uptodo/core/widgets/uptodo_button.dart';
 import 'package:uptodo/features/categories/presentation/widgets/choose_category_modal.dart';
+import 'package:uptodo/features/tasks/presentation/providers/task_draft/task_draft_provider.dart';
 import 'package:uptodo/features/tasks/presentation/widgets/add_task_modal.dart';
 
 class TaskPriorityModal extends ConsumerStatefulWidget {
@@ -18,6 +18,12 @@ class TaskPriorityModal extends ConsumerStatefulWidget {
 
 class _TaskPriorityModalState extends ConsumerState<TaskPriorityModal> {
   int _selectedIndex = -1;
+
+  @override
+  void initState() {
+    super.initState();
+    _selectedIndex = ref.read(taskDraftProvider).priority - 1;
+  }
 
   @override
   Widget build(BuildContext context) {

@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:uptodo/core/models/task_model.dart';
+import 'package:uptodo/features/tasks/domain/models/task_model.dart';
 
 part 'task_list_state.freezed.dart';
 

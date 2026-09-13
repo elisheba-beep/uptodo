@@ -3,10 +3,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:uptodo/core/constant/app_colors.dart';
 import 'package:uptodo/core/constant/size_boxes.dart';
-import 'package:uptodo/core/models/task_model.dart';
-import 'package:uptodo/core/providers/task_draft/task_draft_provider.dart';
-import 'package:uptodo/core/providers/task_list/task_list_provider.dart';
+import 'package:uptodo/features/tasks/domain/models/task_model.dart';
 import 'package:uptodo/core/widgets/uptodo_button.dart';
+import 'package:uptodo/features/tasks/presentation/providers/task_draft/task_draft_provider.dart';
+import 'package:uptodo/features/tasks/presentation/providers/task_list/task_list_provider.dart';
 import 'package:uptodo/features/tasks/presentation/widgets/add_task_modal.dart';
 
 class EditTaskScreen extends ConsumerStatefulWidget {
@@ -23,7 +23,10 @@ class _EditTaskScreenState extends ConsumerState<EditTaskScreen> {
     final currentTask = ref
         .watch(taskListProvider)
         .tasks
-        .firstWhere((task) => task.id == widget.task.id, orElse: () => widget.task);
+        .firstWhere(
+          (task) => task.id == widget.task.id,
+          orElse: () => widget.task,
+        );
 
     final String formattedTime = DateFormat(
       'yyyy-MM-dd HH:mm',
@@ -84,7 +87,7 @@ class _EditTaskScreenState extends ConsumerState<EditTaskScreen> {
                       .startUpdatingTask(currentTask.id);
                   showDialog(
                     context: context,
-                    builder: (context) => AddTaskModal(task: currentTask),
+                    builder: (context) => AddTaskModal(),
                   );
                 },
                 icon: Icon(Icons.edit),
@@ -157,7 +160,7 @@ class _EditTaskScreenState extends ConsumerState<EditTaskScreen> {
 
                 showDialog(
                   context: context,
-                  builder: (context) => AddTaskModal(task: currentTask),
+                  builder: (context) => AddTaskModal(),
                 );
               },
             ),

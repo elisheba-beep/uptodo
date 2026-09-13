@@ -1,5 +1,5 @@
 
-import 'package:uptodo/core/models/task_model.dart';
+import 'package:uptodo/features/tasks/domain/models/task_model.dart';
 
 abstract class TasksRepository {
   Future<List<Task>> getTasks();

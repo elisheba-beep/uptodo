@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uptodo/core/constant/size_boxes.dart';
-import 'package:uptodo/core/models/task_model.dart';
-import 'package:uptodo/core/providers/filtered_tasks/filtered_tasks_provider.dart';
+import 'package:uptodo/features/tasks/domain/models/task_model.dart';
 import 'package:uptodo/core/providers/task_card/task_card_provider.dart';
-import 'package:uptodo/core/providers/task_list/task_list_provider.dart';
-import 'package:uptodo/core/providers/task_list/task_list_state.dart';
+import 'package:uptodo/features/tasks/presentation/providers/filtered_tasks/filtered_tasks_provider.dart';
+import 'package:uptodo/features/tasks/presentation/providers/task_list/task_list_provider.dart';
+import 'package:uptodo/features/tasks/presentation/providers/task_list/task_list_state.dart';
 import 'package:uptodo/features/tasks/presentation/widgets/task_card.dart';
 
 class ShowTasks extends ConsumerStatefulWidget {
@@ -18,13 +18,6 @@ class ShowTasks extends ConsumerStatefulWidget {
 
 class _ShowTasksState extends ConsumerState<ShowTasks> {
   Widget prevTasksWidget = const SizedBox.shrink();
-  @override
-  void initState() {
-    super.initState();
-    Future.delayed(Duration.zero, () {
-      ref.read(taskListProvider.notifier).getTasks();
-    });
-  }
 
   @override
   Widget build(BuildContext context) {

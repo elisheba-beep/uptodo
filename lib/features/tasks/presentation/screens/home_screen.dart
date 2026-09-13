@@ -5,18 +5,29 @@ import 'package:flutter_svg/svg.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:uptodo/core/constant/app_colors.dart';
 import 'package:uptodo/core/constant/size_boxes.dart';
-import 'package:uptodo/core/models/task_model.dart';
-import 'package:uptodo/core/providers/task_list/task_list_provider.dart';
-import 'package:uptodo/core/providers/task_list/task_list_state.dart';
+import 'package:uptodo/features/tasks/domain/models/task_model.dart';
+import 'package:uptodo/features/tasks/presentation/providers/task_list/task_list_provider.dart';
+import 'package:uptodo/features/tasks/presentation/providers/task_list/task_list_state.dart';
 import 'package:uptodo/features/tasks/presentation/widgets/show_tasks.dart';
 import 'package:uptodo/features/tasks/presentation/widgets/task_filter.dart';
 import 'package:uptodo/features/tasks/presentation/widgets/task_search_bar.dart';
 
-class HomeScreen extends ConsumerWidget {
+class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends ConsumerState<HomeScreen> {
+  @override
+  void initState() {
+    super.initState();
+    Future.microtask(() => ref.read(taskListProvider.notifier).getTasks());
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final taskListState = ref.watch(taskListProvider);
 
     return GlobalLoaderOverlay(

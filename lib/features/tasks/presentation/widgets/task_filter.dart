@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uptodo/core/constant/app_colors.dart';
 import 'package:uptodo/core/constant/size_boxes.dart';
-import 'package:uptodo/core/models/task_model.dart';
-import 'package:uptodo/core/providers/task_filter/task_filter_provider.dart';
+import 'package:uptodo/features/tasks/domain/models/task_model.dart';
 
 class TaskFilter extends StatelessWidget {
   const TaskFilter({super.key, required this.filterValue});

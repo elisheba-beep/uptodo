@@ -1,10 +1,10 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:uptodo/core/models/task_model.dart';
-import 'package:uptodo/core/providers/task_list/task_list_provider.dart';
+import 'package:uptodo/features/tasks/domain/models/task_model.dart';
+import 'package:uptodo/features/tasks/presentation/providers/task_list/task_list_provider.dart';
 
 part 'task_draft_provider.g.dart';
 
-@riverpod
+@Riverpod(keepAlive:true)
 class TaskDraft extends _$TaskDraft {
   @override
   Task build() {
@@ -41,3 +41,5 @@ class TaskDraft extends _$TaskDraft {
 
   bool get isValid => state.title.isNotEmpty && state.tag.isNotEmpty;
 }
+
+

@@ -19,7 +19,7 @@ final class TaskDraftProvider extends $NotifierProvider<TaskDraft, Task> {
         argument: null,
         retry: null,
         name: r'taskDraftProvider',
-        isAutoDispose: true,
+        isAutoDispose: false,
         dependencies: null,
         $allTransitiveDependencies: null,
       );
@@ -40,7 +40,7 @@ final class TaskDraftProvider extends $NotifierProvider<TaskDraft, Task> {
   }
 }
 
-String _$taskDraftHash() => r'dfcebd8288b4ae29c5977daac3750f6bdc5e998c';
+String _$taskDraftHash() => r'16679ab35fefd96b89ebe51f121d43d8d4913509';
 
 abstract class _$TaskDraft extends $Notifier<Task> {
   Task build();

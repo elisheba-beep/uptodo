@@ -3,8 +3,8 @@ import 'package:flutter_svg/svg.dart';
 import 'package:uptodo/core/constant/app_colors.dart';
 import 'package:uptodo/core/constant/size_boxes.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:uptodo/core/providers/task_search/task_search_provider.dart';
 import 'package:uptodo/core/utils/debounce.dart';
+import 'package:uptodo/features/tasks/presentation/providers/task_search/task_search_provider.dart';
 
 class TaskSearchBar extends ConsumerStatefulWidget {
   const TaskSearchBar({super.key});

@@ -1,7 +1,7 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:uptodo/core/models/task_model.dart';
-import 'package:uptodo/core/providers/task_list/task_list_provider.dart';
-import 'package:uptodo/core/providers/task_search/task_search_provider.dart';
+import 'package:uptodo/features/tasks/domain/models/task_model.dart';
+import 'package:uptodo/features/tasks/presentation/providers/task_list/task_list_provider.dart';
+import 'package:uptodo/features/tasks/presentation/providers/task_search/task_search_provider.dart';
 
 part 'filtered_tasks_provider.g.dart';
 
