@@ -127,6 +127,8 @@ class TaskList extends _$TaskList {
     state = state.copyWith(status: TaskListStatus.loading);
 
     try {
+      await ref.read(tasksRepositoryProvider).removeTask(id: id);
+
       state = state.copyWith(
         status: TaskListStatus.success,
         tasks: [
