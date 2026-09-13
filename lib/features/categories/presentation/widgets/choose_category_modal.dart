@@ -4,7 +4,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:uptodo/core/constant/app_colors.dart';
 import 'package:uptodo/core/constant/navigation.dart';
 import 'package:uptodo/core/constant/size_boxes.dart';
-import 'package:uptodo/core/widgets/uptodo_button.dart';
 import 'package:uptodo/features/categories/data/category_list.dart';
 import 'package:uptodo/features/categories/presentation/screens/create_new_category_screen.dart';
 import 'package:uptodo/features/tasks/presentation/providers/task_draft/task_draft_provider.dart';
@@ -14,7 +13,9 @@ class ChooseCategoryModal extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final task = ref.watch(taskDraftProvider);
+    const submitSnackBar = SnackBar(
+      content: Text('you can submit your task now'),
+    );
     return Dialog(
       insetPadding: EdgeInsets.symmetric(horizontal: 19),
       backgroundColor: AppColors.popUpBackgroundColor,
@@ -38,7 +39,7 @@ class ChooseCategoryModal extends ConsumerWidget {
                 crossAxisCount: 3,
                 crossAxisSpacing: 32,
                 mainAxisSpacing: 16,
-                childAspectRatio: 1,
+                childAspectRatio: .6,
               ),
               itemBuilder: (context, index) {
                 return Column(
@@ -49,7 +50,9 @@ class ChooseCategoryModal extends ConsumerWidget {
                             .read(taskDraftProvider.notifier)
                             .updateTag(categories[index].categoryName);
                         Navigator.pop(context);
-
+                        ScaffoldMessenger.of(
+                          context,
+                        ).showSnackBar(submitSnackBar);
                         if (index == categories.length - 1) {
                           context.pushTo(CreateNewCategoryScreen());
                         }
@@ -73,17 +76,6 @@ class ChooseCategoryModal extends ConsumerWidget {
                   ],
                 );
               },
-            ),
-            30.heightBox,
-            UpToDoButton(
-              text: 'Add Category',
-              textColour: AppColors.white,
-              backgroundColour: AppColors.purple,
-              onPressed: task.tag.isNotEmpty
-                  ? () {
-                      Navigator.pop(context);
-                    }
-                  : null,
             ),
           ],
         ),

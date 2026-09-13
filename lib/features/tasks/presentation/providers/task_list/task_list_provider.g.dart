@@ -41,7 +41,7 @@ final class TaskListProvider
   }
 }
 
-String _$taskListHash() => r'31deb0435d578abd8e99b447367f82f07785ecf5';
+String _$taskListHash() => r'1b39cb79e655f233a2e05cfb5b78cdd232095e06';
 
 abstract class _$TaskList extends $Notifier<TaskListState> {
   TaskListState build();

@@ -48,123 +48,125 @@ class _EditTaskScreenState extends ConsumerState<EditTaskScreen> {
         actionsPadding: EdgeInsets.only(right: 24),
       ),
 
-      body: Padding(
-        padding: const EdgeInsets.all(24),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-
-          children: [
-            ListTile(
-              tileColor: Colors.transparent,
-              leading: Checkbox(
-                activeColor: AppColors.white,
-                value: currentTask.completed,
-                shape: const CircleBorder(),
-                onChanged: (bool? checked) {
-                  ref
-                      .read(taskListProvider.notifier)
-                      .toggleTask(currentTask.id);
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(24),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+        
+            children: [
+              ListTile(
+                tileColor: Colors.transparent,
+                leading: Checkbox(
+                  activeColor: AppColors.white,
+                  value: currentTask.completed,
+                  shape: const CircleBorder(),
+                  onChanged: (bool? checked) {
+                    ref
+                        .read(taskListProvider.notifier)
+                        .toggleTask(currentTask.id);
+                  },
+                ),
+                title: Text(
+                  currentTask.title,
+                  style: TextStyle(color: AppColors.white),
+                ),
+                subtitle: currentTask.desc != null && currentTask.desc!.isNotEmpty
+                    ? Text(
+                        currentTask.desc!,
+                        style: TextStyle(
+                          color: AppColors.mediumGray,
+                          fontSize: 14,
+                        ),
+                      )
+                    : null,
+                trailing: IconButton(
+                  onPressed: () {
+                    ref
+                        .read(taskDraftProvider.notifier)
+                        .startUpdatingTask(currentTask.id);
+                    showDialog(
+                      context: context,
+                      builder: (context) => AddTaskModal(),
+                    );
+                  },
+                  icon: Icon(Icons.edit),
+                ),
+              ),
+              12.heightBox,
+              EditTile(
+                editKey: 'Task Time:',
+                icon: Icons.alarm,
+                value: formattedTime,
+              ),
+              EditTile(
+                editKey: 'Task Category:',
+                icon: Icons.tag,
+                value: currentTask.tag.isEmpty ? 'None' : currentTask.tag,
+              ),
+              EditTile(
+                editKey: 'Task Priority:',
+                icon: Icons.flag,
+                value: 'Priority ${currentTask.priority}',
+              ),
+              EditTile(
+                editKey: 'Sub-Task:',
+                icon: Icons.more,
+                value: 'Add Sub-Task',
+              ),
+              GestureDetector(
+                onTap: () async {
+                  final removeOrNot = await showDialog(
+                    context: context,
+                    barrierDismissible: false,
+                    builder: (context) {
+                      return AlertDialog(
+                        title: const Text('Are you sure?'),
+                        content: const Text('Do you really want to delete?'),
+                        actions: [
+                          TextButton(
+                            onPressed: () => Navigator.of(context).pop(false),
+                            child: const Text('No'),
+                          ),
+                          TextButton(
+                            onPressed: () => Navigator.of(context).pop(true),
+                            child: const Text('Yes'),
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                  if (removeOrNot) {
+                    ref
+                        .read(taskListProvider.notifier)
+                        .deleteTask(currentTask.id);
+                    if (context.mounted) Navigator.pop(context);
+                  }
                 },
+                child: ListTile(
+                  leading: Icon(Icons.delete, color: Colors.red),
+                  title: Text('Delete Task', style: TextStyle(color: Colors.red)),
+                ),
               ),
-              title: Text(
-                currentTask.title,
-                style: TextStyle(color: AppColors.white),
-              ),
-              subtitle: currentTask.desc != null && currentTask.desc!.isNotEmpty
-                  ? Text(
-                      currentTask.desc!,
-                      style: TextStyle(
-                        color: AppColors.mediumGray,
-                        fontSize: 14,
-                      ),
-                    )
-                  : null,
-              trailing: IconButton(
+              Spacer(),
+              UpToDoButton(
+                text: 'Edit Task',
+                textColour: AppColors.white,
+                backgroundColour: AppColors.purple,
                 onPressed: () {
                   ref
                       .read(taskDraftProvider.notifier)
                       .startUpdatingTask(currentTask.id);
+        
                   showDialog(
                     context: context,
                     builder: (context) => AddTaskModal(),
                   );
                 },
-                icon: Icon(Icons.edit),
               ),
-            ),
-            12.heightBox,
-            EditTile(
-              editKey: 'Task Time:',
-              icon: Icons.alarm,
-              value: formattedTime,
-            ),
-            EditTile(
-              editKey: 'Task Category:',
-              icon: Icons.tag,
-              value: currentTask.tag.isEmpty ? 'None' : currentTask.tag,
-            ),
-            EditTile(
-              editKey: 'Task Priority:',
-              icon: Icons.flag,
-              value: 'Priority ${currentTask.priority}',
-            ),
-            EditTile(
-              editKey: 'Sub-Task:',
-              icon: Icons.more,
-              value: 'Add Sub-Task',
-            ),
-            GestureDetector(
-              onTap: () async {
-                final removeOrNot = await showDialog(
-                  context: context,
-                  barrierDismissible: false,
-                  builder: (context) {
-                    return AlertDialog(
-                      title: const Text('Are you sure?'),
-                      content: const Text('Do you really want to delete?'),
-                      actions: [
-                        TextButton(
-                          onPressed: () => Navigator.of(context).pop(false),
-                          child: const Text('No'),
-                        ),
-                        TextButton(
-                          onPressed: () => Navigator.of(context).pop(true),
-                          child: const Text('Yes'),
-                        ),
-                      ],
-                    );
-                  },
-                );
-                if (removeOrNot) {
-                  ref
-                      .read(taskListProvider.notifier)
-                      .deleteTask(currentTask.id);
-                  if (context.mounted) Navigator.pop(context);
-                }
-              },
-              child: ListTile(
-                leading: Icon(Icons.delete, color: Colors.red),
-                title: Text('Delete Task', style: TextStyle(color: Colors.red)),
-              ),
-            ),
-            Spacer(),
-            UpToDoButton(
-              text: 'Edit Task',
-              textColour: AppColors.white,
-              backgroundColour: AppColors.purple,
-              onPressed: () {
-                ref
-                    .read(taskDraftProvider.notifier)
-                    .startUpdatingTask(currentTask.id);
-
-                showDialog(
-                  context: context,
-                  builder: (context) => AddTaskModal(),
-                );
-              },
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

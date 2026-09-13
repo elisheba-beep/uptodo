@@ -72,6 +72,7 @@ class TaskList extends _$TaskList {
           .editTask(
             id: id,
             title: title,
+            desc: desc,
             updatedAt: updatedAt,
             tag: tag,
             priority: priority,
