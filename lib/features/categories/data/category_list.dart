@@ -19,3 +19,14 @@ List<ChooseCategory> categories = [
   ChooseCategory('Home', 'assets/icons/category_home.svg', Color(0xffFFCC80)),
   ChooseCategory('Create New', 'assets/icons/add.svg', Color(0xff80FFD1)),
 ];
+
+ChooseCategory? getCategoryByName(String? name) {
+  if (name == null || name.isEmpty) return null;
+  try {
+    return categories.firstWhere(
+      (c) => c.categoryName.toLowerCase() == name.toLowerCase(),
+    );
+  } catch (_) {
+    return null;
+  }
+}

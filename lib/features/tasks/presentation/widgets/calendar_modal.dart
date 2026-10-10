@@ -5,11 +5,11 @@ import 'package:uptodo/core/constant/app_colors.dart';
 import 'package:uptodo/core/constant/size_boxes.dart';
 import 'package:uptodo/core/widgets/uptodo_button.dart';
 import 'package:uptodo/features/tasks/presentation/providers/task_draft/task_draft_provider.dart';
-import 'package:uptodo/features/tasks/presentation/widgets/add_task_modal.dart';
 import 'package:uptodo/features/tasks/presentation/widgets/choose_time_modal.dart';
 
 class CalendarModal extends ConsumerStatefulWidget {
-  const CalendarModal({super.key});
+  const CalendarModal({super.key, this.initialDate});
+  final DateTime? initialDate;
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _CalendarModalState();
@@ -19,7 +19,7 @@ class _CalendarModalState extends ConsumerState<CalendarModal> {
   final DateTime _today = DateTime.now();
   late final DateTime _firstDay;
   late final DateTime _lastDay;
-  DateTime _focusedDay = DateTime.now();
+  late DateTime _focusedDay;
   DateTime? _selectedDay;
 
   @override
@@ -27,7 +27,8 @@ class _CalendarModalState extends ConsumerState<CalendarModal> {
     super.initState();
     _firstDay = DateTime.now();
     _lastDay = DateTime(_today.year + 20, _today.month, _today.day);
-    _selectedDay = _today;
+    _focusedDay = widget.initialDate ?? _today;
+    _selectedDay = widget.initialDate ?? _today;
   }
 
   @override
@@ -140,10 +141,6 @@ class _CalendarModalState extends ConsumerState<CalendarModal> {
                   backgroundColour: AppColors.popUpBackgroundColor,
                   onPressed: () {
                     Navigator.pop(context);
-                    showDialog(
-                      context: context,
-                      builder: (context) => AddTaskModal(),
-                    );
                   },
                 ),
                 UpToDoButton(
@@ -151,13 +148,11 @@ class _CalendarModalState extends ConsumerState<CalendarModal> {
                   textColour: AppColors.white,
                   backgroundColour: AppColors.purple,
                   onPressed: () {
-                    
-                    ref.read(taskDraftProvider.notifier).updateDateTime(_selectedDay!);
-                    Navigator.pop(context);
-                    showDialog(
-                      context: context,
-                      builder: (context) => ChooseTimeModal(),
-                    );
+                    ref
+                        .read(taskDraftProvider.notifier)
+                        .updateDateTime(_selectedDay!);
+                    Navigator.pop(context, _selectedDay);
+                   
                   },
                 ),
               ],

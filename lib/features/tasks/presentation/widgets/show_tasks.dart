@@ -17,8 +17,6 @@ class ShowTasks extends ConsumerStatefulWidget {
 }
 
 class _ShowTasksState extends ConsumerState<ShowTasks> {
-  Widget prevTasksWidget = const SizedBox.shrink();
-
   @override
   Widget build(BuildContext context) {
     ref.listen<TaskListState>(taskListProvider, (previous, next) {
@@ -36,50 +34,45 @@ class _ShowTasksState extends ConsumerState<ShowTasks> {
     });
 
     final taskListState = ref.watch(taskListProvider);
+    final filteredTasks = ref.watch(filteredTasksProvider(widget.filter));
 
-    switch (taskListState.status) {
-      case TaskListStatus.initial:
-        return const SizedBox.shrink();
-
-      case TaskListStatus.loading:
-        return prevTasksWidget;
-
-      case TaskListStatus.failure when prevTasksWidget is SizedBox:
-        return Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(taskListState.error, style: const TextStyle(fontSize: 20)),
-              const SizedBox(height: 20),
-              OutlinedButton(
-                onPressed: () {
-                  ref.read(taskListProvider.notifier).getTasks();
-                },
-                child: Text('Please Retry!', style: TextStyle(fontSize: 20)),
-              ),
-            ],
-          ),
-        );
-      case TaskListStatus.failure:
-        return prevTasksWidget;
-      case TaskListStatus.success:
-        final filteredTasks = ref.watch(filteredTasksProvider(widget.filter));
-        prevTasksWidget = ListView.separated(
-          physics: NeverScrollableScrollPhysics(),
-          shrinkWrap: true,
-          itemCount: filteredTasks.length,
-          separatorBuilder: (BuildContext context, int index) {
-            return 16.heightBox;
-          },
-          itemBuilder: (BuildContext context, int index) {
-            final task = filteredTasks[index];
-            return ProviderScope(
-              overrides: [taskCardProvider.overrideWithValue(task)],
-              child: TaskCard(),
-            );
-          },
-        );
-        return prevTasksWidget;
+    if (taskListState.status == TaskListStatus.failure &&
+        filteredTasks.isEmpty) {
+      return Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(taskListState.error, style: const TextStyle(fontSize: 20)),
+            const SizedBox(height: 20),
+            OutlinedButton(
+              onPressed: () {
+                ref.read(taskListProvider.notifier).getTasks();
+              },
+              child: Text('Please Retry!', style: TextStyle(fontSize: 20)),
+            ),
+          ],
+        ),
+      );
     }
+
+    if (filteredTasks.isEmpty) {
+      return const SizedBox.shrink();
+    }
+
+    return ListView.separated(
+      physics: NeverScrollableScrollPhysics(),
+      shrinkWrap: true,
+      itemCount: filteredTasks.length,
+      separatorBuilder: (BuildContext context, int index) {
+        return 16.heightBox;
+      },
+      itemBuilder: (BuildContext context, int index) {
+        final task = filteredTasks[index];
+        return ProviderScope(
+          overrides: [taskCardProvider.overrideWithValue(task)],
+          child: TaskCard(),
+        );
+      },
+    );
   }
 }

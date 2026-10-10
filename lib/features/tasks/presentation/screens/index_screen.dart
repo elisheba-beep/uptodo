@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:uptodo/core/constant/app_colors.dart';
 import 'package:uptodo/core/providers/theme/theme_provider.dart';
+import 'package:uptodo/features/calendar/presentation/calendar_screen.dart';
 import 'package:uptodo/features/tasks/presentation/providers/task_draft/task_draft_provider.dart';
 import 'package:uptodo/features/tasks/presentation/widgets/add_task_modal.dart';
 import 'package:uptodo/features/tasks/presentation/screens/home_screen.dart';
@@ -17,9 +18,11 @@ class IndexScreen extends ConsumerStatefulWidget {
 class _IndexScreenState extends ConsumerState<IndexScreen> {
   int currentScreenIndex = 0;
 
+  List titles = ['Index', 'Calendar', '', 'Focus Mode', 'Profile'];
+
   List screens = [
     HomeScreen(),
-    HomeScreen(),
+    CalendarScreen(),
     HomeScreen(),
     HomeScreen(),
     HomeScreen(),
@@ -29,14 +32,16 @@ class _IndexScreenState extends ConsumerState<IndexScreen> {
     return Scaffold(
       appBar: AppBar(
         leadingWidth: 56,
-        leading: IconButton(
-          onPressed: () {
-            ref.read(themeProvider.notifier).toggleTheme();
-          },
-          icon: Icon(Icons.filter_list, color: AppColors.white),
-        ),
+        leading: currentScreenIndex == 0
+            ? IconButton(
+                onPressed: () {
+                  ref.read(themeProvider.notifier).toggleTheme();
+                },
+                icon: Icon(Icons.filter_list, color: AppColors.white),
+              )
+            : null,
         title: Text(
-          'Index',
+          titles[currentScreenIndex],
           style: TextStyle(
             fontSize: 20,
             letterSpacing: -0.5,
@@ -44,9 +49,13 @@ class _IndexScreenState extends ConsumerState<IndexScreen> {
           ),
         ),
         centerTitle: true,
-        actions: [
-          CircleAvatar(child: Image.asset('assets/images/profile_picture.png')),
-        ],
+        actions: currentScreenIndex == 0
+            ? [
+                CircleAvatar(
+                  child: Image.asset('assets/images/profile_picture.png'),
+                ),
+              ]
+            : null,
         actionsPadding: EdgeInsets.only(right: 24),
       ),
       body: screens[currentScreenIndex],
@@ -56,7 +65,10 @@ class _IndexScreenState extends ConsumerState<IndexScreen> {
         backgroundColor: AppColors.purple,
         onPressed: () {
           ref.read(taskDraftProvider.notifier).startCreatingTask();
-          showDialog(context: context, builder: (context) => AddTaskModal());
+          showModalBottomSheet(context: context, 
+          isScrollControlled: true,
+          backgroundColor: Colors.transparent,
+          builder: (context) => AddTaskModal());
         },
         child: Icon(Icons.add, color: AppColors.white, size: 32),
       ),

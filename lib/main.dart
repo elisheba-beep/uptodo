@@ -1,8 +1,10 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:path/path.dart';
 import 'package:riverpod_sqflite/riverpod_sqflite.dart';
 import 'package:sqflite/sqflite.dart';
+import 'package:sqflite_common_ffi_web/sqflite_ffi_web.dart';
 import 'package:uptodo/core/constant/app_colors.dart';
 import 'package:uptodo/core/providers/storage/storage_provider.dart';
 import 'package:uptodo/core/providers/theme/theme_provider.dart';
@@ -13,6 +15,10 @@ import 'package:uptodo/features/tasks/domain/repositories/sqflite_tasks_reposito
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  if (kIsWeb) {
+    databaseFactory = databaseFactoryFfiWeb;
+  }
   final tasksStorage = await JsonSqFliteStorage.open(
     join(await getDatabasesPath(), 'riverpod.db'),
   );

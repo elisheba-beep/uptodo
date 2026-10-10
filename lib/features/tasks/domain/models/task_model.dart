@@ -40,4 +40,4 @@ abstract class Task with _$Task {
   }
 }
 
-enum Filter { all, today, completed}
+enum Filter { all, today, active, completed}

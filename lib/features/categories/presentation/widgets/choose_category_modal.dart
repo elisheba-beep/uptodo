@@ -46,15 +46,14 @@ class ChooseCategoryModal extends ConsumerWidget {
                   children: [
                     GestureDetector(
                       onTap: () {
-                        ref
-                            .read(taskDraftProvider.notifier)
-                            .updateTag(categories[index].categoryName);
-                        Navigator.pop(context);
-                        ScaffoldMessenger.of(
-                          context,
-                        ).showSnackBar(submitSnackBar);
                         if (index == categories.length - 1) {
-                          context.pushTo(CreateNewCategoryScreen());
+                          Navigator.pop(context);
+                          context.pushTo(const CreateNewCategoryScreen());
+                        } else {
+                          ref
+                              .read(taskDraftProvider.notifier)
+                              .updateTag(categories[index].categoryName);
+                          Navigator.pop(context);
                         }
                       },
                       child: Container(

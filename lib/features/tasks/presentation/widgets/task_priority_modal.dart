@@ -97,10 +97,6 @@ class _TaskPriorityModalState extends ConsumerState<TaskPriorityModal> {
                   backgroundColour: AppColors.popUpBackgroundColor,
                   onPressed: () {
                     Navigator.pop(context);
-                    showDialog(
-                      context: context,
-                      builder: (context) => AddTaskModal(),
-                    );
                   },
                 ),
                 UpToDoButton(
@@ -108,11 +104,12 @@ class _TaskPriorityModalState extends ConsumerState<TaskPriorityModal> {
                   textColour: AppColors.white,
                   backgroundColour: AppColors.purple,
                   onPressed: () {
+                    if (_selectedIndex >= 0) {
+                      ref
+                          .read(taskDraftProvider.notifier)
+                          .updatePriority(_selectedIndex + 1);
+                    }
                     Navigator.pop(context);
-                    showDialog(
-                      context: context,
-                      builder: (context) => ChooseCategoryModal(),
-                    );
                   },
                 ),
               ],

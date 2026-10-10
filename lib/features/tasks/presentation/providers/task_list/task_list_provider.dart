@@ -102,23 +102,25 @@ class TaskList extends _$TaskList {
   }
 
   Future<void> toggleTask(String id) async {
-    state = state.copyWith(status: TaskListStatus.loading);
+    final previousTasks = state.tasks;
+
+    state = state.copyWith(
+      tasks: [
+        for (final task in state.tasks)
+        if(task.id == id)
+        task.copyWith(completed: !task.completed)
+        else
+        task,
+      ],
+    );
 
     try {
       await ref.read(tasksRepositoryProvider).toggleTask(id: id);
-      state = state.copyWith(
-        status: TaskListStatus.success,
-        tasks: [
-          for (final task in state.tasks)
-            if (task.id == id)
-              task.copyWith(completed: !task.completed)
-            else
-              task,
-        ],
-      );
+      
     } catch (e) {
       state = state.copyWith(
         status: TaskListStatus.failure,
+        tasks: previousTasks,
         error: e.toString(),
       );
     }

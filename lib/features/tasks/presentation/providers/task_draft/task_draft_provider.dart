@@ -39,7 +39,7 @@ class TaskDraft extends _$TaskDraft {
   void updatePriority(int priority) =>
       state = state.copyWith(priority: priority);
 
-  bool get isValid => state.title.isNotEmpty && state.tag.isNotEmpty;
+  bool get isValid => state.title.trim().isNotEmpty;
 }
 
 

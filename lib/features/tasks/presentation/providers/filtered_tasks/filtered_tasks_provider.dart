@@ -22,7 +22,22 @@ List<Task> filteredTasks(Ref ref, Filter filter) {
               date.isAtSameMomentAs(startOfToday)) &&
           date.isBefore(startOfTomorrow);
     }).toList(),
-    Filter.completed => taskListState.tasks.where((task) => task.completed).toList(),
+    Filter.completed =>
+      taskListState.tasks.where((task) => task.completed).toList()
+        ..sort((a, b) => b.updatedAt.compareTo(a.updatedAt)),
+    Filter.active =>
+      taskListState.tasks.where((task) => !task.completed).toList()
+        ..sort((a, b) {
+          final aOverdue = a.updatedAt.isBefore(now);
+          final bOverdue = b.updatedAt.isBefore(now);
+          if (aOverdue && !bOverdue) return -1;
+          if (!aOverdue && bOverdue) return 1;
+
+          final priorityComparison = a.priority.compareTo(b.priority);
+          if (priorityComparison != 0) return priorityComparison;
+
+          return a.updatedAt.compareTo(b.updatedAt);
+        }),
     Filter.all => taskListState.tasks,
   };
   if (search.isNotEmpty) {

@@ -9,7 +9,9 @@ import 'package:uptodo/features/tasks/presentation/widgets/calendar_modal.dart';
 import 'package:uptodo/features/tasks/presentation/widgets/task_priority_modal.dart';
 
 class ChooseTimeModal extends ConsumerStatefulWidget {
-  const ChooseTimeModal({super.key});
+  const ChooseTimeModal({super.key, this.initialTime});
+
+  final DateTime? initialTime;
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() =>
@@ -17,7 +19,13 @@ class ChooseTimeModal extends ConsumerStatefulWidget {
 }
 
 class _ChooseTimeModalState extends ConsumerState<ChooseTimeModal> {
-  DateTime _selectedTime = DateTime.now();
+  late DateTime _selectedTime;
+
+  @override
+  void initState() {
+    super.initState();
+    _selectedTime = widget.initialTime ?? DateTime.now();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,6 +45,7 @@ class _ChooseTimeModalState extends ConsumerState<ChooseTimeModal> {
             Divider(thickness: 1, color: AppColors.mediumGray),
             21.heightBox,
             TimePickerSpinner(
+              time: _selectedTime,
               is24HourMode: false,
               normalTextStyle: TextStyle(
                 fontSize: 16,
@@ -66,10 +75,6 @@ class _ChooseTimeModalState extends ConsumerState<ChooseTimeModal> {
                   backgroundColour: AppColors.popUpBackgroundColor,
                   onPressed: () {
                     Navigator.pop(context);
-                    showDialog(
-                      context: context,
-                      builder: (context) => CalendarModal(),
-                    );
                   },
                 ),
                 UpToDoButton(
@@ -90,11 +95,7 @@ class _ChooseTimeModalState extends ConsumerState<ChooseTimeModal> {
                     ref
                         .read(taskDraftProvider.notifier)
                         .updateDateTime(combinedDateTime);
-                    Navigator.pop(context);
-                    showDialog(
-                      context: context,
-                      builder: (context) => TaskPriorityModal(),
-                    );
+                    Navigator.pop(context, _selectedTime);
                   },
                 ),
               ],
