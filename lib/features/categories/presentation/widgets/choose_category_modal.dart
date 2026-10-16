@@ -13,9 +13,7 @@ class ChooseCategoryModal extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    const submitSnackBar = SnackBar(
-      content: Text('you can submit your task now'),
-    );
+
     return Dialog(
       insetPadding: EdgeInsets.symmetric(horizontal: 19),
       backgroundColor: AppColors.popUpBackgroundColor,

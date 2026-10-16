@@ -40,7 +40,7 @@ final class TaskDraftProvider extends $NotifierProvider<TaskDraft, Task> {
   }
 }
 
-String _$taskDraftHash() => r'16679ab35fefd96b89ebe51f121d43d8d4913509';
+String _$taskDraftHash() => r'2b272524a442a3f89cb6b79d45bc43e623bebc19';
 
 abstract class _$TaskDraft extends $Notifier<Task> {
   Task build();

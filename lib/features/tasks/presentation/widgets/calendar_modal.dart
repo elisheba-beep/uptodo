@@ -5,7 +5,6 @@ import 'package:uptodo/core/constant/app_colors.dart';
 import 'package:uptodo/core/constant/size_boxes.dart';
 import 'package:uptodo/core/widgets/uptodo_button.dart';
 import 'package:uptodo/features/tasks/presentation/providers/task_draft/task_draft_provider.dart';
-import 'package:uptodo/features/tasks/presentation/widgets/choose_time_modal.dart';
 
 class CalendarModal extends ConsumerStatefulWidget {
   const CalendarModal({super.key, this.initialDate});

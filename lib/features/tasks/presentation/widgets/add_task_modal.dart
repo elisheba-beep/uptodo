@@ -55,12 +55,7 @@ class _AddTaskModalState extends ConsumerState<AddTaskModal> {
     final category = getCategoryByName(draft.tag);
     final priorityColor = TaskHelpers.getPriorityColor(draft.priority);
 
-    const errorSnackBar = SnackBar(
-      content: Text(
-        'fill in all the required information.',
-        style: TextStyle(color: AppColors.red),
-      ),
-    );
+ 
 
     return Container(
       padding: EdgeInsets.only(

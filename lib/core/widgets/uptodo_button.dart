@@ -34,9 +34,10 @@ class UpToDoButton extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 12.0,),
         child: Row(
+          mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            hasIcon ? icon! : Text(''),
+            hasIcon ? icon! : SizedBox.shrink(),
             SizedBox(width: hasIcon ? 8 : 0),
             Text(
               text,

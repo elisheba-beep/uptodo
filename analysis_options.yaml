@@ -4,12 +4,13 @@ linter:
   rules:
     avoid_print: false
 
+plugins:
+  custom_lint: {}
+
 analyzer:
-  plugins:
-    - custom_lint
   exclude:
-    - '**/*.freezed.dart'
-    - '**/*.g.dart'
+    - "**/*.freezed.dart"
+    - "**/*.g.dart"
     - build/**
     - android/**
     - ios/**
