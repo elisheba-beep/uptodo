@@ -5,10 +5,11 @@ import 'package:uptodo/features/tasks/presentation/providers/task_list/task_list
 
 part 'task_list_provider.g.dart';
 
-@riverpod
+@Riverpod(keepAlive: true)
 class TaskList extends _$TaskList {
   @override
   TaskListState build() {
+    Future.microtask(() => getTasks());
     return TaskListState.initial();
   }
 

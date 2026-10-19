@@ -24,11 +24,7 @@ class HomeScreen extends ConsumerStatefulWidget {
 class _HomeScreenState extends ConsumerState<HomeScreen> {
   bool _isCompletedExpanded = true;
 
-  @override
-  void initState() {
-    super.initState();
-    Future.microtask(() => ref.read(taskListProvider.notifier).getTasks());
-  }
+
 
   @override
   Widget build(BuildContext context) {
