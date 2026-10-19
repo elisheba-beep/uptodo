@@ -117,7 +117,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     : AppColors.lightPurple.withValues(alpha: 0.5),
                 onPressed: () {
                   (usernameHasText && passwordHasText)
-                      ? context.pushTo(IndexScreen())
+                      ? context.pushReplacement(IndexScreen())
                       : null;
                 },
               ),

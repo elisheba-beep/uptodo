@@ -3,37 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uptodo/core/constant/app_colors.dart';
 import 'package:uptodo/core/constant/size_boxes.dart';
 import 'package:uptodo/core/widgets/uptodo_button.dart';
-import 'package:uptodo/features/focus/data/models/app_usage.dart';
+import 'package:uptodo/features/focus/data/mock_data/mock_app_usage.dart';
 import 'package:uptodo/features/focus/presentation/widgets/app_usage_tile.dart';
 import 'package:uptodo/features/focus/presentation/widgets/weekly_focus_chart.dart';
-
-const _mockApps = [
-  AppUsage(
-    'Instagram',
-    'You spent 4h on Instagram today',
-    Icons.camera_alt,
-    Colors.pink,
-  ),
-  AppUsage(
-    'Twitter',
-    'You spent 3h on Twitter today',
-    Icons.alternate_email,
-    Colors.lightBlue,
-  ),
-  AppUsage(
-    'Facebook',
-    'You spent 1h on Facebook today',
-    Icons.facebook,
-    Colors.blue,
-  ),
-  AppUsage(
-    'Telegram',
-    'You spent 30m on Telegram today',
-    Icons.send,
-    Colors.cyan,
-  ),
-  AppUsage('Gmail', 'You spent 45m on Gmail today', Icons.mail, Colors.red),
-];
 
 class FocusModeScreen extends ConsumerStatefulWidget {
   const FocusModeScreen({super.key});
@@ -45,7 +17,7 @@ class FocusModeScreen extends ConsumerStatefulWidget {
 
 class _FocusModeScreenState extends ConsumerState<FocusModeScreen>
     with SingleTickerProviderStateMixin {
-  final durationInSeconds = 30;
+  final durationInSeconds = 45 * 60;
   late AnimationController controller;
   bool isRunning = false;
 
@@ -86,8 +58,8 @@ class _FocusModeScreenState extends ConsumerState<FocusModeScreen>
 
   @override
   void dispose() {
-    super.dispose();
     controller.dispose();
+    super.dispose();
   }
 
   @override
@@ -212,7 +184,7 @@ class _FocusModeScreenState extends ConsumerState<FocusModeScreen>
               ),
             ),
             16.heightBox,
-            for (final app in _mockApps) AppUsageTile(app: app),
+            for (final app in mockApps) AppUsageTile(app: app),
           ],
         ),
       ),

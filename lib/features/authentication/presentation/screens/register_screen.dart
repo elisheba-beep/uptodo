@@ -127,7 +127,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     : AppColors.lightPurple.withValues(alpha: 0.5),
                 onPressed: () {
                   (usernameHasText && passwordHasText && confirmPasswordHasText)
-                      ? context.pushTo(IndexScreen())
+                      ? context.pushReplacement(IndexScreen())
                       : null;
                 },
               ),

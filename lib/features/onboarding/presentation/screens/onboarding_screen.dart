@@ -46,7 +46,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
           child: IntrinsicWidth(
             child: UpToDoButton(
               onPressed: () {
-                context.pushTo(StartScreen());
+                context.pushReplacement(StartScreen());
               },
               backgroundColour: AppColors.backgroundColor,
               text: 'SKIP',
@@ -137,7 +137,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                   UpToDoButton(
                     onPressed: () {
                       if (currentIndex == 2) {
-                        context.pushTo(StartScreen());
+                        context.pushReplacement(StartScreen());
                       }
                       updatePageIndex(currentIndex + 1);
                     },
