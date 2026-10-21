@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:uptodo/core/constant/app_colors.dart';
-import 'package:uptodo/core/constant/firebase_constants.dart';
 import 'package:uptodo/core/constant/size_boxes.dart';
 import 'package:uptodo/core/providers/theme/theme_provider.dart';
 import 'package:uptodo/features/calendar/presentation/calendar_screen.dart';
