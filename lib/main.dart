@@ -11,7 +11,6 @@ import 'package:uptodo/core/providers/theme/theme_provider.dart';
 import 'package:uptodo/core/router/router_provider.dart';
 import 'package:uptodo/features/tasks/domain/repositories/providers/tasks_repository_provider.dart';
 import 'package:uptodo/core/widgets/theme_data.dart';
-import 'package:uptodo/features/onboarding/presentation/screens/onboarding_screen.dart';
 import 'package:uptodo/features/tasks/domain/repositories/sqflite_tasks_repository.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:uptodo/firebase_options.dart';
