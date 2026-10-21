@@ -2,10 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:uptodo/core/constant/app_colors.dart';
+import 'package:uptodo/core/constant/firebase_constants.dart';
+import 'package:uptodo/core/constant/size_boxes.dart';
 import 'package:uptodo/core/providers/theme/theme_provider.dart';
 import 'package:uptodo/features/calendar/presentation/calendar_screen.dart';
 import 'package:uptodo/features/focus/presentation/screens/focus_mode_screen.dart';
 import 'package:uptodo/features/profile/presentation/screens/profile_screen.dart';
+import 'package:uptodo/features/tasks/presentation/providers/home/home_provider.dart';
 import 'package:uptodo/features/tasks/presentation/providers/task_draft/task_draft_provider.dart';
 import 'package:uptodo/features/tasks/presentation/widgets/add_task_modal.dart';
 import 'package:uptodo/features/tasks/presentation/screens/home_screen.dart';
@@ -33,13 +36,24 @@ class _IndexScreenState extends ConsumerState<IndexScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leadingWidth: 56,
+        leadingWidth: MediaQuery.of(context).size.width / 3,
         leading: currentScreenIndex == 0
-            ? IconButton(
-                onPressed: () {
-                  ref.read(themeProvider.notifier).toggleTheme();
-                },
-                icon: Icon(Icons.filter_list, color: AppColors.white),
+            ? Row(
+                children: [
+                  IconButton(
+                    onPressed: () {
+                      ref.invalidate(profileProvider);
+                    },
+                    icon: Icon(Icons.refresh, color: AppColors.white),
+                  ),
+                  5.widthBox,
+                  IconButton(
+                    onPressed: () {
+                      ref.read(themeProvider.notifier).toggleTheme();
+                    },
+                    icon: Icon(Icons.filter_list, color: AppColors.white),
+                  ),
+                ],
               )
             : null,
         title: Text(
@@ -67,10 +81,12 @@ class _IndexScreenState extends ConsumerState<IndexScreen> {
         backgroundColor: AppColors.purple,
         onPressed: () {
           ref.read(taskDraftProvider.notifier).startCreatingTask();
-          showModalBottomSheet(context: context, 
-          isScrollControlled: true,
-          backgroundColor: Colors.transparent,
-          builder: (context) => AddTaskModal());
+          showModalBottomSheet(
+            context: context,
+            isScrollControlled: true,
+            backgroundColor: Colors.transparent,
+            builder: (context) => AddTaskModal(),
+          );
         },
         child: Icon(Icons.add, color: AppColors.white, size: 32),
       ),

@@ -18,6 +18,9 @@ class AuthRepository {
 
       final signedInUser = userCredential.user!;
 
+      await signedInUser.updateDisplayName(name);
+      await signedInUser.reload();
+
       await usersCollection.doc(signedInUser.uid).set({
         'name': name,
         'email': email,
@@ -87,6 +90,4 @@ class AuthRepository {
       throw handleException(e);
     }
   }
-
-
 }

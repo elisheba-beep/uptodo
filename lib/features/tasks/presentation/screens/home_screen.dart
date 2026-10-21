@@ -32,6 +32,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     final activeTasks = ref.watch(filteredTasksProvider(Filter.active));
     final completedTasks = ref.watch(filteredTasksProvider(Filter.completed));
     final searchTerm = ref.watch(taskSearchProvider);
+    
 
     return GlobalLoaderOverlay(
       overlayWidgetBuilder: (_) {
