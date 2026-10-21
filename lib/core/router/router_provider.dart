@@ -7,6 +7,7 @@ import 'package:uptodo/features/authentication/presentation/screens/firebase_err
 import 'package:uptodo/features/authentication/presentation/screens/login_screen.dart';
 import 'package:uptodo/features/authentication/presentation/screens/page_not_found.dart';
 import 'package:uptodo/features/authentication/presentation/screens/register_screen.dart';
+import 'package:uptodo/features/authentication/presentation/screens/verify_email_screen.dart';
 import 'package:uptodo/features/onboarding/presentation/providers/onboarding_completed_provider.dart';
 import 'package:uptodo/features/onboarding/presentation/screens/onboarding_screen.dart';
 import 'package:uptodo/features/onboarding/presentation/screens/splash_screen.dart';
@@ -46,9 +47,9 @@ GoRouter router(Ref ref) {
         return hasSeenOnboarding ? '/start' : '/onboarding';
       }
 
-      // if (!user.emailVerified) {
-      //   return state.matchedLocation == '/verifyEmail' ? null : '/verifyEmail';
-      // }
+      if (!user.emailVerified) {
+        return state.matchedLocation == '/verifyEmail' ? null : '/verifyEmail';
+      }
 
       final verifyingEmail = (state.matchedLocation == '/verifyEmail');
       final splashing = (state.matchedLocation == '/splash');
@@ -103,6 +104,13 @@ GoRouter router(Ref ref) {
         name: RouteNames.signup,
         builder: (context, state) {
           return const RegisterScreen();
+        },
+      ),
+      GoRoute(
+        path: '/verifyEmail',
+        name: RouteNames.verifyEmail,
+        builder: (context, state) {
+          return const VerifyEmailScreen();
         },
       ),
       GoRoute(
