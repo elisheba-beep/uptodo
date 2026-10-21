@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uptodo/core/constant/app_colors.dart';
-import 'package:uptodo/core/constant/navigation.dart';
 import 'package:uptodo/core/constant/size_boxes.dart';
+import 'package:uptodo/core/utils/error_dialog.dart';
 import 'package:uptodo/core/widgets/uptodo_button.dart';
-import 'package:uptodo/features/authentication/presentation/screens/login_screen.dart';
+import 'package:uptodo/features/authentication/data/models/custom_error.dart';
+import 'package:uptodo/features/authentication/domain/repositories/auth_repository_provider.dart';
 import 'package:uptodo/features/profile/data/settings/settings_data.dart';
 import 'package:uptodo/features/profile/presentation/widgets/settings_tile.dart';
 import 'package:uptodo/features/tasks/domain/models/task_model.dart';
@@ -134,8 +135,13 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
               contentPadding: EdgeInsets.symmetric(horizontal: 0, vertical: 12),
               dense: true,
               tileColor: Colors.transparent,
-              onTap: () {
-                context.pushReplacement(LoginScreen());
+              onTap: () async {
+                try {
+                  await ref.read(authRepositoryProvider).signOut();
+                } on CustomError catch (e) {
+                  if (!context.mounted) return;
+                  errorDialog(context, e);
+                }
               },
               leading: Icon(
                 Icons.door_back_door,

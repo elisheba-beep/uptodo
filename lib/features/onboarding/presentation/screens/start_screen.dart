@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:uptodo/core/constant/app_colors.dart';
-import 'package:uptodo/core/constant/navigation.dart';
 import 'package:uptodo/core/constant/size_boxes.dart';
-import 'package:uptodo/features/authentication/presentation/screens/login_screen.dart';
-import 'package:uptodo/features/authentication/presentation/screens/register_screen.dart';
 import 'package:uptodo/core/widgets/uptodo_button.dart';
 
 class StartScreen extends StatelessWidget {
@@ -49,7 +47,7 @@ class StartScreen extends StatelessWidget {
                   textColour: AppColors.white,
                   backgroundColour: AppColors.purple,
                   onPressed: () {
-                    context.pushTo(LoginScreen());
+                    context.go('/signin');
                   },
                 ),
                 15.heightBox,
@@ -58,7 +56,7 @@ class StartScreen extends StatelessWidget {
                   textColour: Colors.white,
                   backgroundColour: Color(0xff121212),
                   onPressed: () {
-                    context.pushTo(RegisterScreen());
+                    context.go('/signup');
                   },
                   border: true,
                 ),

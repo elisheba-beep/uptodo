@@ -1,21 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:uptodo/core/constant/app_colors.dart';
-import 'package:uptodo/core/constant/navigation.dart';
 import 'package:uptodo/core/constant/size_boxes.dart';
 import 'package:uptodo/core/widgets/uptodo_button.dart';
 import 'package:uptodo/features/onboarding/data/page_details_data.dart';
-import 'package:uptodo/features/onboarding/presentation/screens/start_screen.dart';
+import 'package:uptodo/features/onboarding/presentation/providers/onboarding_completed_provider.dart';
 
-class OnboardingScreen extends StatefulWidget {
+class OnboardingScreen extends ConsumerStatefulWidget {
   const OnboardingScreen({super.key});
 
   @override
-  State<OnboardingScreen> createState() => _OnboardingScreenState();
+  ConsumerState<OnboardingScreen> createState() => _OnboardingScreenState();
 }
 
-class _OnboardingScreenState extends State<OnboardingScreen>
+class _OnboardingScreenState extends ConsumerState<OnboardingScreen>
     with TickerProviderStateMixin {
   int currentIndex = 0;
   late PageController pageViewController;
@@ -46,7 +47,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
           child: IntrinsicWidth(
             child: UpToDoButton(
               onPressed: () {
-                context.pushReplacement(StartScreen());
+                context.go('/start');
               },
               backgroundColour: AppColors.backgroundColor,
               text: 'SKIP',
@@ -137,7 +138,9 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                   UpToDoButton(
                     onPressed: () {
                       if (currentIndex == 2) {
-                        context.pushReplacement(StartScreen());
+                       ref.read(onboardingCompletedProvider.notifier).completeOnboarding();
+
+                       context.go('/start');
                       }
                       updatePageIndex(currentIndex + 1);
                     },

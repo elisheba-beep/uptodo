@@ -9,14 +9,18 @@ class UpToDoTextField extends StatelessWidget {
     this.obscureText = false,
     required this.label,
     required this.hintText,
-    required this.onChanged,
+    required this.validator,
+    this.keyboardType,
+    this.autoCorrect,
   });
 
   final TextEditingController controller;
   final bool obscureText;
   final String label;
   final String hintText;
-  final void Function(String)? onChanged;
+  final bool? autoCorrect;
+  final TextInputType? keyboardType;
+  final FormFieldValidator<String> validator;
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +30,8 @@ class UpToDoTextField extends StatelessWidget {
         Text(label, style: TextStyle(color: AppColors.white)),
         15.heightBox,
         TextFormField(
-          onChanged: onChanged,
+          keyboardType: keyboardType ?? TextInputType.text,
+          autocorrect: autoCorrect ?? false,
           controller: controller,
           obscureText: obscureText,
           cursorColor: AppColors.white,
@@ -46,6 +51,7 @@ class UpToDoTextField extends StatelessWidget {
               borderSide: BorderSide(color: AppColors.mediumGray, width: 1),
             ),
           ),
+          validator:validator,
         ),
       ],
     );

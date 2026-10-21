@@ -67,7 +67,9 @@ class _CreateNewCategoryScreenState extends State<CreateNewCategoryScreen> {
                 controller: categoryController,
                 label: 'Category name :',
                 hintText: 'Category name',
-                onChanged: (text) {},
+                validator: (String? value) {
+                  return null;
+                },
               ),
               20.heightBox,
               Text(
