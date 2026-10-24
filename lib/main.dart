@@ -1,17 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:path/path.dart';
-import 'package:riverpod_sqflite/riverpod_sqflite.dart';
-import 'package:sqflite/sqflite.dart';
-import 'package:sqflite_common_ffi_web/sqflite_ffi_web.dart';
 import 'package:uptodo/core/constant/app_colors.dart';
-import 'package:uptodo/core/providers/storage/storage_provider.dart';
 import 'package:uptodo/core/providers/theme/theme_provider.dart';
 import 'package:uptodo/core/router/router_provider.dart';
-import 'package:uptodo/features/tasks/domain/repositories/providers/tasks_repository_provider.dart';
 import 'package:uptodo/core/widgets/theme_data.dart';
-import 'package:uptodo/features/tasks/domain/repositories/sqflite_tasks_repository.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:uptodo/firebase_options.dart';
 import 'package:url_strategy/url_strategy.dart';
@@ -20,27 +14,15 @@ void main() async {
   setPathUrlStrategy();
   WidgetsFlutterBinding.ensureInitialized();
 
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform
-  );
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
   if (kIsWeb) {
-    databaseFactory = databaseFactoryFfiWeb;
+    FirebaseFirestore.instance.settings = const Settings(
+      persistenceEnabled: true,
+    );
   }
-  final tasksStorage = await JsonSqFliteStorage.open(
-    join(await getDatabasesPath(), 'riverpod.db'),
-  );
-  runApp(
-    ProviderScope(
-      overrides: [
-        taskStorageProvider.overrideWith((ref) => tasksStorage),
-        tasksRepositoryProvider.overrideWithValue(
-          SqfliteTasksRepository(tasksStorage),
-        ),
-      ],
-      child: MyApp(),
-    ),
-  );
+
+  runApp(ProviderScope(child: MyApp()));
 }
 
 class MyApp extends ConsumerWidget {

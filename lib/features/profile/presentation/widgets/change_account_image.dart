@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:uptodo/core/constant/app_colors.dart';
 import 'package:uptodo/core/constant/size_boxes.dart';
 
-enum ImageSourceType { camera, gallery, drive }
+enum ImageSourceType { camera, gallery }
 
 class ChangeImageModal extends StatelessWidget {
   const ChangeImageModal({super.key});
@@ -43,12 +43,7 @@ class ChangeImageModal extends StatelessWidget {
               Navigator.pop(context, ImageSourceType.gallery);
             },
           ),
-          _ImageOptionTile(
-            title: 'Import from Google Drive',
-            onTap: () {
-              Navigator.pop(context, ImageSourceType.drive);
-            },
-          ),
+
           16.heightBox,
         ],
       ),
@@ -57,10 +52,7 @@ class ChangeImageModal extends StatelessWidget {
 }
 
 class _ImageOptionTile extends StatelessWidget {
-  const _ImageOptionTile({
-    required this.title,
-    required this.onTap,
-  });
+  const _ImageOptionTile({required this.title, required this.onTap});
 
   final String title;
   final VoidCallback onTap;

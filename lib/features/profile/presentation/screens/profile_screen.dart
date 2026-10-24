@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:uptodo/core/constant/app_colors.dart';
 import 'package:uptodo/core/constant/firebase_constants.dart';
 import 'package:uptodo/core/constant/size_boxes.dart';
+import 'package:uptodo/core/utils/avatar_image.dart';
 import 'package:uptodo/core/utils/error_dialog.dart';
 import 'package:uptodo/core/widgets/uptodo_button.dart';
 import 'package:uptodo/features/authentication/data/models/custom_error.dart';
 import 'package:uptodo/features/authentication/domain/repositories/auth_repository_provider.dart';
 import 'package:uptodo/features/profile/data/settings/settings_data.dart';
+import 'package:uptodo/features/profile/domain/repositories/profile_repository_provider.dart';
 import 'package:uptodo/features/profile/presentation/widgets/change_account_image.dart';
 import 'package:uptodo/features/profile/presentation/widgets/change_name_dialog.dart';
 import 'package:uptodo/features/profile/presentation/widgets/change_password_dialog.dart';
@@ -30,6 +33,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
     final completedTasks = ref.watch(filteredTasksProvider(Filter.completed));
     final uid = fbAuth.currentUser!.uid;
     final profileState = ref.watch(profileProvider(uid));
+    bool uploadingImage = false;
 
     return SingleChildScrollView(
       child: profileState.when(
@@ -40,12 +44,16 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Center(
-                  child: CircleAvatar(
-                    backgroundColor: Colors.transparent,
-                    backgroundImage: AssetImage(
-                      'assets/images/profile_picture.png',
-                    ),
-                    radius: 42.5,
+                  child: Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      CircleAvatar(
+                        backgroundColor: Colors.transparent,
+                        radius: 42.5,
+                        backgroundImage: avatarImage(appUser.profilePic),
+                      ),
+                      if (uploadingImage) const CircularProgressIndicator(),
+                    ],
                   ),
                 ),
                 10.heightBox,
@@ -144,7 +152,26 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                           builder: (context) => const ChangeImageModal(),
                         );
 
-                    if (selectedSource != null) {}
+                    if (selectedSource == null) return;
+                    final repo = ref.read(profileRepositoryProvider);
+                    try {
+                      final file = await repo.pickImage(
+                        selectedSource == ImageSourceType.camera
+                            ? ImageSource.camera
+                            : ImageSource.gallery,
+                      );
+                      if (file == null) return;
+
+                      setState(() => uploadingImage = true);
+
+                      await repo.uploadProfilePicture(file: file, uid: uid);
+                      ref.invalidate(profileProvider(uid));
+                    } on CustomError catch (e) {
+                      if (!context.mounted) return;
+                      errorDialog(context, e);
+                    } finally {
+                      if (mounted) setState(() => uploadingImage = false);
+                    }
                   },
                 ),
                 16.heightBox,

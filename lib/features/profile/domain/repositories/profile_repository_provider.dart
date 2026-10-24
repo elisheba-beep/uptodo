@@ -4,6 +4,6 @@ import 'package:uptodo/features/profile/domain/repositories/profile_repository.d
 part 'profile_repository_provider.g.dart';
 
 @riverpod
-ProfileRepository profileReposiroty (Ref ref) {
+ProfileRepository profileRepository (Ref ref) {
  return ProfileRepository() ;
 }

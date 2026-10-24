@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:uptodo/core/constant/app_colors.dart';
+import 'package:uptodo/core/constant/firebase_constants.dart';
 import 'package:uptodo/core/constant/size_boxes.dart';
 import 'package:uptodo/core/providers/theme/theme_provider.dart';
+import 'package:uptodo/core/utils/avatar_image.dart';
 import 'package:uptodo/features/calendar/presentation/calendar_screen.dart';
 import 'package:uptodo/features/focus/presentation/screens/focus_mode_screen.dart';
 import 'package:uptodo/features/profile/presentation/screens/profile_screen.dart';
@@ -33,6 +35,8 @@ class _IndexScreenState extends ConsumerState<IndexScreen> {
   ];
   @override
   Widget build(BuildContext context) {
+    final uid = fbAuth.currentUser!.uid;
+    final profilePic = ref.watch(profileProvider(uid)).value?.profilePic;
     return Scaffold(
       appBar: AppBar(
         leadingWidth: MediaQuery.of(context).size.width / 3,
@@ -41,7 +45,7 @@ class _IndexScreenState extends ConsumerState<IndexScreen> {
                 children: [
                   IconButton(
                     onPressed: () {
-                      ref.invalidate(profileProvider);
+                      ref.invalidate(profileProvider(fbAuth.currentUser!.uid));
                     },
                     icon: Icon(Icons.refresh, color: AppColors.white),
                   ),
@@ -66,8 +70,16 @@ class _IndexScreenState extends ConsumerState<IndexScreen> {
         centerTitle: true,
         actions: currentScreenIndex == 0
             ? [
-                CircleAvatar(
-                  child: Image.asset('assets/images/profile_picture.png'),
+                GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      currentScreenIndex = 4;
+                    });
+                  },
+                  child: CircleAvatar(
+                    backgroundColor: Colors.transparent,
+                    backgroundImage: avatarImage(profilePic),
+                  ),
                 ),
               ]
             : null,

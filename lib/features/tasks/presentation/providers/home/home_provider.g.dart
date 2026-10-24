@@ -58,7 +58,7 @@ final class ProfileProvider
   }
 }
 
-String _$profileHash() => r'b4338543c1497a374121ea3fcdb35e96448098d5';
+String _$profileHash() => r'3f54cbfa8f4037b5a642acb82adfe6230ad950ad';
 
 final class ProfileFamily extends $Family
     with $FunctionalFamilyOverride<FutureOr<AppUser>, String> {

@@ -9,10 +9,10 @@ part of 'profile_repository_provider.dart';
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint, type=warning
 
-@ProviderFor(profileReposiroty)
-final profileReposirotyProvider = ProfileReposirotyProvider._();
+@ProviderFor(profileRepository)
+final profileRepositoryProvider = ProfileRepositoryProvider._();
 
-final class ProfileReposirotyProvider
+final class ProfileRepositoryProvider
     extends
         $FunctionalProvider<
           ProfileRepository,
@@ -20,19 +20,19 @@ final class ProfileReposirotyProvider
           ProfileRepository
         >
     with $Provider<ProfileRepository> {
-  ProfileReposirotyProvider._()
+  ProfileRepositoryProvider._()
     : super(
         from: null,
         argument: null,
         retry: null,
-        name: r'profileReposirotyProvider',
+        name: r'profileRepositoryProvider',
         isAutoDispose: true,
         dependencies: null,
         $allTransitiveDependencies: null,
       );
 
   @override
-  String debugGetCreateSourceHash() => _$profileReposirotyHash();
+  String debugGetCreateSourceHash() => _$profileRepositoryHash();
 
   @$internal
   @override
@@ -42,7 +42,7 @@ final class ProfileReposirotyProvider
 
   @override
   ProfileRepository create(Ref ref) {
-    return profileReposiroty(ref);
+    return profileRepository(ref);
   }
 
   /// {@macro riverpod.override_with_value}
@@ -54,4 +54,4 @@ final class ProfileReposirotyProvider
   }
 }
 
-String _$profileReposirotyHash() => r'8388829805886bbf8b7fec44f744d3bdabcb37d3';
+String _$profileRepositoryHash() => r'2a010f6ed5ff032b91d9ec4959a43cafd642cf2b';

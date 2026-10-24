@@ -12,6 +12,7 @@ abstract class AppUser with _$AppUser{
     @Default('') String id,
     @Default('') String name,
     @Default('') String email,
+    String? profilePic,
   }) = _AppUser;
 
   factory AppUser.fromDoc(DocumentSnapshot appUserDoc){
@@ -21,6 +22,7 @@ abstract class AppUser with _$AppUser{
       id: appUserDoc.id,
       name: appUserData['name'],
       email: appUserData['email'],
+      profilePic: appUserData['profilePic']
     );
   }
 }
