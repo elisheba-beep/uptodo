@@ -4,66 +4,24 @@ import 'package:uptodo/core/constant/app_colors.dart';
 import 'package:uptodo/core/constant/size_boxes.dart';
 import 'package:uptodo/core/widgets/uptodo_button.dart';
 import 'package:uptodo/features/focus/data/mock_data/mock_app_usage.dart';
+import 'package:uptodo/features/focus/presentation/providers/dnd_service.dart';
+import 'package:uptodo/features/focus/presentation/providers/focus_notifier.dart';
+import 'package:uptodo/features/focus/presentation/providers/focus_session.dart';
 import 'package:uptodo/features/focus/presentation/widgets/app_usage_tile.dart';
+import 'package:uptodo/features/focus/presentation/widgets/dnd_prompt.dart';
+import 'package:uptodo/features/focus/presentation/widgets/duration_picker.dart';
+import 'package:uptodo/features/focus/presentation/widgets/focus_ring.dart';
 import 'package:uptodo/features/focus/presentation/widgets/weekly_focus_chart.dart';
 
-class FocusModeScreen extends ConsumerStatefulWidget {
+class FocusModeScreen extends ConsumerWidget {
   const FocusModeScreen({super.key});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() =>
-      _FocusModeScreenState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    final session = ref.watch(focusProvider);
+    final isRunning = session.status == FocusStatus.running;
+    final dndSupported = ref.read(dndServiceProvider).isSupported;
 
-class _FocusModeScreenState extends ConsumerState<FocusModeScreen>
-    with SingleTickerProviderStateMixin {
-  final durationInSeconds = 45 * 60;
-  late AnimationController controller;
-  bool isRunning = false;
-
-  @override
-  void initState() {
-    super.initState();
-    controller =
-        AnimationController(
-          vsync: this,
-          duration: Duration(seconds: durationInSeconds),
-        )..addStatusListener((status) {
-          if (status == AnimationStatus.completed) {
-            controller.reset();
-            setState(() => isRunning = false);
-          }
-        });
-  }
-
-  void _toggleFocus() {
-    if (isRunning) {
-      setState(() {
-        controller.reset();
-        isRunning = false;
-      });
-    } else {
-      setState(() {
-        controller.forward();
-        isRunning = true;
-      });
-    }
-  }
-
-  String _formatTime(int totalSeconds) {
-    final m = (totalSeconds ~/ 60).toString().padLeft(2, '0');
-    final s = (totalSeconds % 60).toString().padLeft(2, '0');
-    return '$m:$s';
-  }
-
-  @override
-  void dispose() {
-    controller.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.all(24.0),
@@ -71,44 +29,16 @@ class _FocusModeScreenState extends ConsumerState<FocusModeScreen>
           children: [
             32.heightBox,
             Center(
-              child: AnimatedBuilder(
-                animation: controller,
-                builder: (context, child) {
-                  final remaining = isRunning
-                      ? (durationInSeconds * (1 - controller.value)).ceil()
-                      : 0;
-
-                  return Stack(
-                    alignment: Alignment.center,
-                    children: [
-                      SizedBox(
-                        width: 213,
-                        height: 213,
-                        child: CircularProgressIndicator(
-                          value: isRunning ? 1.0 - controller.value : 0,
-                          backgroundColor: AppColors.mediumDarkGray,
-                          strokeWidth: 20,
-                          valueColor: AlwaysStoppedAnimation(AppColors.purple),
-                        ),
-                      ),
-                      Text(
-                        _formatTime(remaining),
-                        style: TextStyle(
-                          fontWeight: FontWeight.w500,
-                          fontSize: 40,
-                          color: AppColors.white,
-                          fontFeatures: [FontFeature.tabularFigures()],
-                        ),
-                      ),
-                    ],
-                  );
-                },
+              child: FocusRing(
+                onTapTime: () => showDurationPicker(context, ref),
               ),
             ),
             20.heightBox,
             Text(
+              dndSupported
+                  ? 'While your focus mode is on, all of your\n notifications will be off'
+                  : 'Stay off your phone until\n the timer ends',
               textAlign: TextAlign.center,
-              'While your focus mode is on, all of your\n notifications will be off',
               style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w400,
@@ -120,7 +50,15 @@ class _FocusModeScreenState extends ConsumerState<FocusModeScreen>
               text: isRunning ? 'Stop Focusing' : 'Start Focusing',
               textColour: AppColors.white,
               backgroundColour: AppColors.purple,
-              onPressed: _toggleFocus,
+              onPressed: () async {
+                final notifier = ref.read(focusProvider.notifier);
+                if (isRunning) {
+                  notifier.stop();
+                  return;
+                }
+                final proceed = await prepareDnd(context, ref);
+                if (proceed && context.mounted) notifier.start();
+              },
             ),
             49.heightBox,
             Row(
