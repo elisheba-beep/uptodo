@@ -4,7 +4,9 @@ import 'package:uptodo/features/focus/presentation/providers/dnd_service.dart';
 
 Future<bool> prepareDnd(BuildContext context, WidgetRef ref) async {
   final dnd = ref.read(dndServiceProvider);
-  if (!dnd.isSupported || await dnd.hasAccess()) return true;
+  if (!dnd.isSupported || !await dnd.isEnabledPref() || await dnd.hasAccess()) {
+    return true;
+  }
   if (!context.mounted) return false;
 
   final choice = await showDialog<bool>(

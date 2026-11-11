@@ -1,17 +1,31 @@
 import 'dart:io' show Platform;
 import 'package:do_not_disturb/do_not_disturb.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+part 'dnd_service.g.dart';
 
 class DndService {
   static const _prevKey = 'dnd_previous_filter';
+  static const _enabledKey = 'dnd_during_focus';
 
   static const _focusFilter = InterruptionFilter.priority;
 
   final _plugin = DoNotDisturbPlugin();
 
   bool get isSupported => !kIsWeb && Platform.isAndroid;
+
+
+  Future<bool> isEnabledPref() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getBool(_enabledKey) ?? true;
+  }
+
+  Future<void> setEnabledPref(bool value) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool(_enabledKey, value);
+  }
 
   Future<bool> hasAccess() async {
     if (!isSupported) return false;
@@ -24,6 +38,7 @@ class DndService {
   }
 
   Future<void> enable() async {
+    if (!await isEnabledPref()) return;
     if (!await hasAccess()) return;
     final prefs = await SharedPreferences.getInstance();
 
@@ -33,6 +48,7 @@ class DndService {
     }
     await _plugin.setInterruptionFilter(_focusFilter);
   }
+
 
   Future<void> restore() async {
     if (!isSupported) return;
@@ -49,4 +65,5 @@ class DndService {
   }
 }
 
-final dndServiceProvider = Provider<DndService>((ref) => DndService());
+@Riverpod(keepAlive: true)
+DndService dndService(Ref ref) => DndService();

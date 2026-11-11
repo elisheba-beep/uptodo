@@ -19,6 +19,9 @@ import 'package:uptodo/features/tasks/domain/models/task_model.dart';
 import 'package:uptodo/features/tasks/presentation/providers/filtered_tasks/filtered_tasks_provider.dart';
 import 'package:uptodo/features/tasks/presentation/providers/home/home_provider.dart';
 
+import '../../../../core/constant/navigation.dart';
+import 'app_settings_screen.dart';
+
 class ProfileScreen extends ConsumerStatefulWidget {
   const ProfileScreen({super.key});
 
@@ -47,10 +50,45 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                   child: Stack(
                     alignment: Alignment.center,
                     children: [
-                      CircleAvatar(
-                        backgroundColor: Colors.transparent,
-                        radius: 42.5,
-                        backgroundImage: avatarImage(appUser.profilePic),
+                      GestureDetector(
+                        onTap: () async {
+                          final selectedSource =
+                              await showModalBottomSheet<ImageSourceType>(
+                                context: context,
+                                backgroundColor: Colors.transparent,
+                                builder: (context) => const ChangeImageModal(),
+                              );
+
+                          if (selectedSource == null) return;
+                          final repo = ref.read(profileRepositoryProvider);
+                          try {
+                            final file = await repo.pickImage(
+                              selectedSource == ImageSourceType.camera
+                                  ? ImageSource.camera
+                                  : ImageSource.gallery,
+                            );
+                            if (file == null) return;
+
+                            setState(() => uploadingImage = true);
+
+                            await repo.uploadProfilePicture(
+                              file: file,
+                              uid: uid,
+                            );
+                            ref.invalidate(profileProvider(uid));
+                          } on CustomError catch (e) {
+                            if (!context.mounted) return;
+                            errorDialog(context, e);
+                          } finally {
+                            if (mounted) setState(() => uploadingImage = false);
+                          }
+                        },
+
+                        child: CircleAvatar(
+                          backgroundColor: Colors.transparent,
+                          radius: 42.5,
+                          backgroundImage: avatarImage(appUser.profilePic),
+                        ),
                       ),
                       if (uploadingImage) const CircularProgressIndicator(),
                     ],
@@ -58,12 +96,24 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                 ),
                 10.heightBox,
                 Center(
-                  child: Text(
-                    appUser.name,
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w500,
-                      color: AppColors.white,
+                  child: GestureDetector(
+                    onTap: () async {
+                      final newName = await showDialog<String>(
+                        context: context,
+                        builder: (context) =>
+                            ChangeNameDialog(currentName: appUser.name),
+                      );
+                      if (newName != null) {
+                        ref.invalidate(profileProvider(uid));
+                      }
+                    },
+                    child: Text(
+                      appUser.name,
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w500,
+                        color: AppColors.white,
+                      ),
                     ),
                   ),
                 ),
@@ -101,7 +151,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                 SettingsTile(
                   title: 'App Settings',
                   icon: Icons.settings,
-                  onTap: () {},
+                  onTap: () => context.pushTo(const AppSettingsScreen()),
                 ),
                 16.heightBox,
                 Text(
@@ -193,7 +243,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                     return SettingsTile(
                       title: setting.title,
                       icon: setting.icon,
-                      onTap: setting.onTap,
+                      onTap: () => setting.onTap(context),
                     );
                   },
                 ),

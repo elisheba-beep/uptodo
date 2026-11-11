@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 
-
 class Settings {
   final String title;
   final IconData icon;
-  final VoidCallback onTap;
+  final void Function(BuildContext context) onTap;
 
   const Settings({
     required this.title,
