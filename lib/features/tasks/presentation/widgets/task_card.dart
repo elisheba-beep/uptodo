@@ -10,6 +10,8 @@ import 'package:uptodo/features/categories/data/category_list.dart';
 import 'package:uptodo/features/tasks/presentation/providers/task_list/task_list_provider.dart';
 import 'package:uptodo/features/tasks/presentation/screens/edit_task_screen.dart';
 
+import '../../../categories/presentation/providers/categories_provider.dart';
+
 class TaskCard extends ConsumerWidget {
   const TaskCard({super.key});
 
@@ -19,6 +21,7 @@ class TaskCard extends ConsumerWidget {
     final dueInfo = TaskHelpers.formatTaskDue(task.updatedAt, task.completed);
     final priorityColor = TaskHelpers.getPriorityColor(task.priority);
     final category = getCategoryByName(task.tag);
+    ref.watch(categoriesProvider);
 
     final categoryTextColor =
         category != null && category.categoryColor.computeLuminance() > 0.5
